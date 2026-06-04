@@ -29,22 +29,25 @@ body{
 
 header{
   background:linear-gradient(135deg,#fbf4e9,#fffdf8);
-  padding:22px 34px;
+  padding:18px 28px;
   border-bottom:1px solid var(--borde);
   display:flex;
   justify-content:space-between;
   align-items:center;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
 
 .brand{
   font-family:Georgia, serif;
-  font-size:34px;
+  font-size:32px;
   font-style:italic;
   color:var(--verde);
 }
 
 .subtitle{
-  font-size:13px;
+  font-size:12px;
   letter-spacing:3px;
   color:var(--maquillaje);
   text-transform:uppercase;
@@ -58,7 +61,7 @@ header{
 button{
   border:0;
   border-radius:12px;
-  padding:12px 18px;
+  padding:11px 16px;
   cursor:pointer;
   font-weight:bold;
 }
@@ -74,19 +77,19 @@ button{
 }
 
 .panel{
-  padding:22px 34px;
+  padding:18px 28px;
 }
 
 .filtros{
   display:grid;
-  grid-template-columns:1fr 180px 180px 170px;
-  gap:12px;
-  margin-bottom:18px;
+  grid-template-columns:1fr 170px 170px 160px;
+  gap:10px;
+  margin-bottom:16px;
 }
 
 input, select{
   width:100%;
-  padding:13px 14px;
+  padding:12px 14px;
   border:1px solid var(--borde);
   border-radius:10px;
   background:white;
@@ -96,7 +99,7 @@ input, select{
   background:var(--beige);
   color:var(--verde2);
   border-radius:10px;
-  padding:13px;
+  padding:12px;
   text-align:center;
   font-weight:bold;
 }
@@ -104,7 +107,7 @@ input, select{
 .catalogo{
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:10px;
 }
 
 .card{
@@ -113,9 +116,9 @@ input, select{
   border-radius:16px;
   padding:12px;
   display:grid;
-  grid-template-columns:135px 1fr 160px;
-  gap:16px;
-  min-height:135px;
+  grid-template-columns:160px 1fr;
+  gap:18px;
+  min-height:150px;
   box-shadow:0 6px 18px rgba(92,73,54,.08);
   align-items:center;
 }
@@ -123,7 +126,7 @@ input, select{
 .photo{
   background:var(--beige);
   border-radius:12px;
-  height:118px;
+  height:135px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -133,26 +136,32 @@ input, select{
 .photo img{
   width:100%;
   height:100%;
-  object-fit:contain;
-  padding:4px;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
+.photo.sin-foto::after{
+  content:attr(data-ref);
+  font-family:Georgia, serif;
+  color:var(--verde);
+  font-size:22px;
 }
 
 .ref{
   font-family:Georgia, serif;
   color:var(--verde);
-  font-size:28px;
+  font-size:31px;
   line-height:1;
-  margin-bottom:6px;
+  margin-bottom:4px;
 }
 
 .desc{
   font-family:Georgia, serif;
-  font-size:20px;
-  line-height:1.08;
+  font-size:22px;
+  line-height:1.05;
   text-transform:uppercase;
   color:#3c352f;
-  max-height:46px;
-  overflow:hidden;
   margin-bottom:8px;
 }
 
@@ -160,53 +169,25 @@ input, select{
   display:inline-block;
   background:#fbf7ef;
   border:1px solid var(--borde);
-  padding:5px 10px;
+  padding:5px 12px;
   border-radius:20px;
   color:var(--maquillaje);
   font-weight:bold;
-  font-size:14px;
+  font-size:16px;
   margin-bottom:8px;
 }
 
 .tallas-linea{
-  font-size:14px;
+  font-size:16px;
   line-height:1.35;
-  color:#5a5148;
+  color:#4f463d;
   font-weight:bold;
 }
 
-.stock-box{
-  background:#fbf7ef;
-  border:1px solid var(--borde);
-  border-radius:14px;
-  padding:12px;
-  text-align:center;
-}
-
-.stock-label{
-  font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:1px;
+.total-linea{
+  margin-top:6px;
+  font-size:15px;
   color:var(--verde2);
-  margin-bottom:6px;
-}
-
-.stock-num{
-  font-family:Georgia, serif;
-  font-size:34px;
-  color:var(--verde);
-  line-height:1;
-}
-
-.stock-uds{
-  font-size:13px;
-  color:#6d6258;
-}
-
-.estado{
-  margin-top:8px;
-  color:var(--verde);
-  font-size:12px;
   font-weight:bold;
 }
 
@@ -216,20 +197,61 @@ input, select{
   color:var(--verde);
 }
 
-@media(max-width:900px){
-  header{display:block}
-  .actions{margin-top:18px}
-  .panel{padding:16px}
-  .filtros{grid-template-columns:1fr}
-  .card{
-    grid-template-columns:105px 1fr;
+@media(max-width:700px){
+  header{
+    display:block;
+    padding:14px 16px;
   }
-  .stock-box{
-    grid-column:1/-1;
+
+  .brand{
+    font-size:27px;
+  }
+
+  .subtitle{
+    font-size:10px;
+  }
+
+  .actions{
+    margin-top:12px;
+  }
+
+  .panel{
+    padding:12px;
+  }
+
+  .filtros{
+    grid-template-columns:1fr;
+  }
+
+  .card{
+    grid-template-columns:42% 58%;
+    gap:12px;
+    padding:12px;
+    margin:0;
+    min-height:190px;
+  }
+
+  .photo{
+    height:170px;
+  }
+
+  .ref{
+    font-size:28px;
+  }
+
+  .desc{
+    font-size:20px;
+  }
+
+  .precio{
+    font-size:16px;
+  }
+
+  .tallas-linea{
+    font-size:15px;
   }
 }
 
-/* PDF */
 @media print{
   @page{
     size:A4 portrait;
@@ -241,14 +263,15 @@ input, select{
   }
 
   header{
-    padding:0 0 5mm 0;
-    margin-bottom:4mm;
+    position:static;
+    padding:0 0 4mm 0;
+    margin-bottom:3mm;
     background:white;
     border-bottom:1px solid #ddd;
   }
 
   .brand{
-    font-size:24pt;
+    font-size:22pt;
   }
 
   .subtitle{
@@ -265,451 +288,53 @@ input, select{
   }
 
   .catalogo{
-    gap:2.5mm;
+    gap:2mm;
   }
 
   .card{
-    height:42mm;
-    min-height:42mm;
+    height:38mm;
+    min-height:38mm;
     box-shadow:none;
     border:1px solid #ddd;
-    border-radius:5mm;
-    padding:3mm;
+    border-radius:4mm;
+    padding:2.5mm;
     display:grid;
-    grid-template-columns:34mm 1fr 27mm;
+    grid-template-columns:32mm 1fr;
     gap:4mm;
     page-break-inside:avoid;
     break-inside:avoid;
   }
 
   .photo{
-    height:35mm;
+    height:32mm;
     border-radius:3mm;
   }
 
-  .photo img{
-    padding:1mm;
-  }
-
   .ref{
-    font-size:15pt;
-    margin-bottom:1mm;
+    font-size:14pt;
+    margin-bottom:0.5mm;
   }
 
   .desc{
-    font-size:10pt;
-    max-height:12mm;
-    margin-bottom:1.5mm;
+    font-size:9pt;
+    line-height:1.05;
+    margin-bottom:1mm;
   }
 
   .precio{
     font-size:8pt;
-    padding:1mm 2mm;
-    margin-bottom:1.5mm;
+    padding:0.8mm 2mm;
+    margin-bottom:1mm;
   }
 
   .tallas-linea{
+    font-size:7.4pt;
+    line-height:1.18;
+  }
+
+  .total-linea{
     font-size:7.5pt;
-    line-height:1.25;
-  }
-
-  .stock-box{
-    padding:2mm;
-    border-radius:3mm;
-  }
-
-  .stock-label{
-    font-size:6.5pt;
-    margin-bottom:1mm;
-  }
-
-  .stock-num{
-    font-size:20pt;
-  }
-
-  .stock-uds{
-    font-size:7pt;
-  }
-
-  .estado{
-    display:none;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-  <div>
-    <div class="brand">Abuela Tata</div>
-    <div class="subtitle">Catálogo de stock disponible</div>
-  </div>
-
-  <div class="actions">
-    <button class="btn-soft" onclick="window.scrollTo({top:0,behavior:'smooth'})">Inicio</button>
-    <button class="btn-main" onclick="generarPDF()">Generar PDF</button>
-  </div>
-</header>
-
-<section class="panel">
-  <div class="filtros">
-    <input id="buscar" placeholder="Buscar referencia o descripción..." oninput="pintar()">
-
-    <select id="filtroTalla" onchange="pintar()">
-      <option value="">Todas las tallas</option>
-    </select>
-
-    <select id="ordenar" onchange="pintar()">
-      <option value="referencia">Ordenar por referencia</option>
-      <option value="stock">Ordenar por stock</option>
-    </select>
-
-    <div class="resumen" id="stockTotal">Stock: 0 uds</div>
-  </div>
-
-  <div class="catalogo" id="contenedor">
-    <div class="loading">Cargando catálogo...</div>
-  </div>
-</section>
-
-<script>
-const SUPABASE_URL = 'https://qoyrjhgjtydbcngfnyqn.supabase.co';
-const SUPABASE_KEY = '<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catálogo Stock · Abuela Tata</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-:root{
-  --verde:#6f806b;
-  --verde2:#52664d;
-  --beige:#f8f2e8;
-  --marfil:#fffdf8;
-  --maquillaje:#dca88c;
-  --texto:#3f3a34;
-  --borde:#eadfce;
-}
-
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  background:var(--marfil);
-  color:var(--texto);
-  font-family:Arial, sans-serif;
-}
-
-header{
-  background:linear-gradient(135deg,#fbf4e9,#fffdf8);
-  padding:22px 34px;
-  border-bottom:1px solid var(--borde);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.brand{
-  font-family:Georgia, serif;
-  font-size:34px;
-  font-style:italic;
-  color:var(--verde);
-}
-
-.subtitle{
-  font-size:13px;
-  letter-spacing:3px;
-  color:var(--maquillaje);
-  text-transform:uppercase;
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-}
-
-button{
-  border:0;
-  border-radius:12px;
-  padding:12px 18px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.btn-main{
-  background:var(--maquillaje);
-  color:white;
-}
-
-.btn-soft{
-  background:var(--verde);
-  color:white;
-}
-
-.panel{
-  padding:22px 34px;
-}
-
-.filtros{
-  display:grid;
-  grid-template-columns:1fr 180px 180px 170px;
-  gap:12px;
-  margin-bottom:18px;
-}
-
-input, select{
-  width:100%;
-  padding:13px 14px;
-  border:1px solid var(--borde);
-  border-radius:10px;
-  background:white;
-}
-
-.resumen{
-  background:var(--beige);
-  color:var(--verde2);
-  border-radius:10px;
-  padding:13px;
-  text-align:center;
-  font-weight:bold;
-}
-
-.catalogo{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.card{
-  background:white;
-  border:1px solid var(--borde);
-  border-radius:16px;
-  padding:12px;
-  display:grid;
-  grid-template-columns:135px 1fr 160px;
-  gap:16px;
-  min-height:135px;
-  box-shadow:0 6px 18px rgba(92,73,54,.08);
-  align-items:center;
-}
-
-.photo{
-  background:var(--beige);
-  border-radius:12px;
-  height:118px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-
-.photo img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  padding:4px;
-}
-
-.ref{
-  font-family:Georgia, serif;
-  color:var(--verde);
-  font-size:28px;
-  line-height:1;
-  margin-bottom:6px;
-}
-
-.desc{
-  font-family:Georgia, serif;
-  font-size:20px;
-  line-height:1.08;
-  text-transform:uppercase;
-  color:#3c352f;
-  max-height:46px;
-  overflow:hidden;
-  margin-bottom:8px;
-}
-
-.precio{
-  display:inline-block;
-  background:#fbf7ef;
-  border:1px solid var(--borde);
-  padding:5px 10px;
-  border-radius:20px;
-  color:var(--maquillaje);
-  font-weight:bold;
-  font-size:14px;
-  margin-bottom:8px;
-}
-
-.tallas-linea{
-  font-size:14px;
-  line-height:1.35;
-  color:#5a5148;
-  font-weight:bold;
-}
-
-.stock-box{
-  background:#fbf7ef;
-  border:1px solid var(--borde);
-  border-radius:14px;
-  padding:12px;
-  text-align:center;
-}
-
-.stock-label{
-  font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  color:var(--verde2);
-  margin-bottom:6px;
-}
-
-.stock-num{
-  font-family:Georgia, serif;
-  font-size:34px;
-  color:var(--verde);
-  line-height:1;
-}
-
-.stock-uds{
-  font-size:13px;
-  color:#6d6258;
-}
-
-.estado{
-  margin-top:8px;
-  color:var(--verde);
-  font-size:12px;
-  font-weight:bold;
-}
-
-.loading{
-  text-align:center;
-  padding:50px;
-  color:var(--verde);
-}
-
-@media(max-width:900px){
-  header{display:block}
-  .actions{margin-top:18px}
-  .panel{padding:16px}
-  .filtros{grid-template-columns:1fr}
-  .card{
-    grid-template-columns:105px 1fr;
-  }
-  .stock-box{
-    grid-column:1/-1;
-  }
-}
-
-/* PDF */
-@media print{
-  @page{
-    size:A4 portrait;
-    margin:8mm;
-  }
-
-  body{
-    background:white;
-  }
-
-  header{
-    padding:0 0 5mm 0;
-    margin-bottom:4mm;
-    background:white;
-    border-bottom:1px solid #ddd;
-  }
-
-  .brand{
-    font-size:24pt;
-  }
-
-  .subtitle{
-    font-size:8pt;
-  }
-
-  .actions,
-  .filtros{
-    display:none!important;
-  }
-
-  .panel{
-    padding:0;
-  }
-
-  .catalogo{
-    gap:2.5mm;
-  }
-
-  .card{
-    height:42mm;
-    min-height:42mm;
-    box-shadow:none;
-    border:1px solid #ddd;
-    border-radius:5mm;
-    padding:3mm;
-    display:grid;
-    grid-template-columns:34mm 1fr 27mm;
-    gap:4mm;
-    page-break-inside:avoid;
-    break-inside:avoid;
-  }
-
-  .photo{
-    height:35mm;
-    border-radius:3mm;
-  }
-
-  .photo img{
-    padding:1mm;
-  }
-
-  .ref{
-    font-size:15pt;
-    margin-bottom:1mm;
-  }
-
-  .desc{
-    font-size:10pt;
-    max-height:12mm;
-    margin-bottom:1.5mm;
-  }
-
-  .precio{
-    font-size:8pt;
-    padding:1mm 2mm;
-    margin-bottom:1.5mm;
-  }
-
-  .tallas-linea{
-    font-size:7.5pt;
-    line-height:1.25;
-  }
-
-  .stock-box{
-    padding:2mm;
-    border-radius:3mm;
-  }
-
-  .stock-label{
-    font-size:6.5pt;
-    margin-bottom:1mm;
-  }
-
-  .stock-num{
-    font-size:20pt;
-  }
-
-  .stock-uds{
-    font-size:7pt;
-  }
-
-  .estado{
-    display:none;
+    margin-top:1mm;
   }
 }
 </style>
@@ -828,7 +453,6 @@ function agrupar(){
         talla: row.talla,
         stock
       });
-
       mapa[ref].total += stock;
     }
   });
@@ -878,7 +502,7 @@ function pintar(){
         <img 
           src="images/${item.referencia}.jpg" 
           alt="${item.referencia}"
-          onerror="this.src='https://placehold.co/600x600/f8f2e8/6f806b?text=${item.referencia}'"
+          onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto'); this.parentElement.setAttribute('data-ref', '${item.referencia}')"
         >
       </div>
 
@@ -887,180 +511,7 @@ function pintar(){
         <div class="desc">${item.descripcion || 'Artículo disponible'}</div>
         <div class="precio">${formatoPrecio(item.precio)}</div>
         <div class="tallas-linea">${resumenTallas(item.tallas)}</div>
-      </div>
-
-      <div class="stock-box">
-        <div class="stock-label">Stock total</div>
-        <div class="stock-num">${item.total}</div>
-        <div class="stock-uds">unidades</div>
-      </div>
-    </article>
-  `).join('');
-}
-
-function resumenTallas(tallas){
-  return tallas
-    .filter(t => Number(t.stock) > 0)
-    .map(t => `${t.talla}(${t.stock})`)
-    .join(' · ');
-}
-
-function formatoPrecio(precio){
-  if(precio === null || precio === undefined || precio === '') return 'Precio no indicado';
-  const n = Number(precio);
-  if(isNaN(n)) return precio;
-  return n.toLocaleString('es-ES', {style:'currency', currency:'EUR'});
-}
-
-function generarPDF(){
-  window.print();
-}
-
-cargarDatos();
-</script>
-
-</body>
-</html>';
-const TABLA = 'stock_ceremonia26';
-
-const cliente = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-let datos = [];
-let agrupados = [];
-
-async function cargarDatos(){
-  const { data, error } = await cliente
-    .from(TABLA)
-    .select('referencia, descripcion, precio, talla, stock')
-    .order('referencia', { ascending:true });
-
-  if(error){
-    document.getElementById('contenedor').innerHTML =
-      '<div class="loading">Error cargando Supabase. Revisa la clave o permisos.</div>';
-    console.error(error);
-    return;
-  }
-
-  datos = data || [];
-  prepararTallas();
-  agrupar();
-  pintar();
-}
-
-function prepararTallas(){
-  const tallas = [...new Set(datos.map(x => x.talla).filter(Boolean))];
-  tallas.sort((a,b)=>ordenTalla(a)-ordenTalla(b));
-
-  const select = document.getElementById('filtroTalla');
-  tallas.forEach(t=>{
-    const op=document.createElement('option');
-    op.value=t;
-    op.textContent=t;
-    select.appendChild(op);
-  });
-}
-
-function ordenTalla(t){
-  const s = String(t).toUpperCase().replace(/\s/g,'');
-  const orden = {
-    '3M':1,'6M':2,'9M':3,'12M':4,'18M':5,
-    '2A':6,'2Y':6,'3A':7,'3Y':7,'4A':8,'4Y':8,
-    '5A':9,'5Y':9,'6A':10,'6Y':10,'7A':11,'7Y':11,
-    '8A':12,'8Y':12,'9A':13,'9Y':13,'10A':14,'10Y':14,
-    '12A':15,'12Y':15
-  };
-  return orden[s] || 99;
-}
-
-function agrupar(){
-  const mapa = {};
-
-  datos.forEach(row=>{
-    const ref = String(row.referencia || '').trim();
-    if(!ref) return;
-
-    if(!mapa[ref]){
-      mapa[ref] = {
-        referencia: ref,
-        descripcion: row.descripcion || '',
-        precio: row.precio || '',
-        tallas: [],
-        total: 0
-      };
-    }
-
-    const stock = Number(row.stock || 0);
-
-    if(stock > 0){
-      mapa[ref].tallas.push({
-        talla: row.talla,
-        stock
-      });
-
-      mapa[ref].total += stock;
-    }
-  });
-
-  agrupados = Object.values(mapa).filter(x=>x.total>0);
-
-  agrupados.forEach(item=>{
-    item.tallas.sort((a,b)=>ordenTalla(a.talla)-ordenTalla(b.talla));
-  });
-}
-
-function pintar(){
-  const contenedor = document.getElementById('contenedor');
-  const buscar = document.getElementById('buscar').value.toLowerCase();
-  const tallaFiltro = document.getElementById('filtroTalla').value;
-  const ordenar = document.getElementById('ordenar').value;
-
-  let lista = agrupados.filter(item=>{
-    const coincideBusqueda =
-      item.referencia.toLowerCase().includes(buscar) ||
-      item.descripcion.toLowerCase().includes(buscar);
-
-    const coincideTalla = !tallaFiltro ||
-      item.tallas.some(t => t.talla === tallaFiltro && t.stock > 0);
-
-    return coincideBusqueda && coincideTalla;
-  });
-
-  if(ordenar === 'stock'){
-    lista.sort((a,b)=>b.total-a.total);
-  }else{
-    lista.sort((a,b)=>a.referencia.localeCompare(b.referencia));
-  }
-
-  const total = lista.reduce((sum,item)=>sum+item.total,0);
-  document.getElementById('stockTotal').textContent =
-    `${lista.length} refs · ${total} uds`;
-
-  if(lista.length===0){
-    contenedor.innerHTML = '<div class="loading">No hay artículos con esos filtros.</div>';
-    return;
-  }
-
-  contenedor.innerHTML = lista.map(item => `
-    <article class="card">
-      <div class="photo">
-        <img 
-          src="images/${item.referencia}.jpg" 
-          alt="${item.referencia}"
-          onerror="this.src='https://placehold.co/600x600/f8f2e8/6f806b?text=${item.referencia}'"
-        >
-      </div>
-
-      <div class="info">
-        <div class="ref">${item.referencia}</div>
-        <div class="desc">${item.descripcion || 'Artículo disponible'}</div>
-        <div class="precio">${formatoPrecio(item.precio)}</div>
-        <div class="tallas-linea">${resumenTallas(item.tallas)}</div>
-      </div>
-
-      <div class="stock-box">
-        <div class="stock-label">Stock total</div>
-        <div class="stock-num">${item.total}</div>
-        <div class="stock-uds">unidades</div>
+        <div class="total-linea">Stock total: ${item.total} uds</div>
       </div>
     </article>
   `).join('');
