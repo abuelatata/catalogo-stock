@@ -1,152 +1,480 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catálogo Stock · Abuela Tata</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Catálogo de Stock · Abuela Tata</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#f7f2ec;color:#2b2b2b}
-header{background:#fff;padding:22px;text-align:center;border-bottom:1px solid #e4d8cc}
-.logo{font-size:30px;color:#8a633f;font-weight:bold}
-.sub{color:#7b6b5d}
-.controls{padding:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-input,button{padding:12px;border-radius:8px;border:1px solid #cdbba8}
-button{background:#8a633f;color:white;cursor:pointer;font-weight:bold}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding:20px}
-.card{background:white;border-radius:14px;padding:16px;box-shadow:0 4px 16px #0001}
-.card img{width:100%;height:280px;object-fit:cover;border-radius:12px;background:#eee}
-.ref{font-size:22px;font-weight:bold;margin-top:12px}
-.desc{color:#6d5c4d;margin:6px 0 12px}
-table{width:100%;border-collapse:collapse;margin-top:10px}
-td,th{border:1px solid #e5ddd4;padding:8px;text-align:center}
-th{background:#f1e8de}
-.total{margin-top:12px;font-weight:bold;color:#8a633f}
-#pdfArea{background:#fff}
-.estado{text-align:center;padding:20px;color:#8a633f}
-@media print{.controls{display:none}}
+:root{
+  --verde:#6f806b;
+  --verde-oscuro:#55684f;
+  --verde-claro:#eef3ec;
+  --beige:#f8f2e8;
+  --marfil:#fffdf8;
+  --maquillaje:#dca88c;
+  --texto:#3f3a34;
+  --borde:#eadfce;
+  --sombra:0 8px 24px rgba(92,73,54,.12);
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:"Georgia", serif;
+  background:var(--marfil);
+  color:var(--texto);
+}
+
+.app{
+  display:grid;
+  grid-template-columns:250px 1fr;
+  min-height:100vh;
+}
+
+.sidebar{
+  background:linear-gradient(180deg,#fbf4e9,#fffaf2);
+  padding:30px 24px;
+  border-right:1px solid var(--borde);
+  position:sticky;
+  top:0;
+  height:100vh;
+}
+
+.logo{
+  font-size:34px;
+  color:var(--verde);
+  font-style:italic;
+  margin-bottom:4px;
+}
+
+.sublogo{
+  letter-spacing:4px;
+  color:var(--maquillaje);
+  font-size:12px;
+  text-transform:uppercase;
+  margin-bottom:60px;
+}
+
+.menu a{
+  display:block;
+  padding:14px 18px;
+  border-radius:28px;
+  margin-bottom:12px;
+  color:var(--texto);
+  text-decoration:none;
+  font-family:Arial, sans-serif;
+  font-size:15px;
+}
+
+.menu a.active{
+  background:var(--verde);
+  color:white;
+}
+
+.sidebar-frase{
+  position:absolute;
+  bottom:35px;
+  left:24px;
+  right:24px;
+  color:#8b7a68;
+  font-style:italic;
+  font-size:16px;
+  line-height:1.4;
+}
+
+.main{
+  padding:45px 42px 90px;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  border-bottom:1px solid var(--borde);
+  padding-bottom:30px;
+  margin-bottom:32px;
+}
+
+h1{
+  margin:0;
+  font-size:48px;
+  color:var(--verde-oscuro);
+  font-weight:500;
+}
+
+.header p{
+  font-family:Arial, sans-serif;
+  font-size:17px;
+  margin:8px 0 0;
+}
+
+.header span{
+  color:var(--maquillaje);
+  font-weight:bold;
+}
+
+.btn{
+  background:var(--maquillaje);
+  border:0;
+  color:white;
+  padding:14px 24px;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+  font-family:Arial, sans-serif;
+}
+
+.filtros{
+  display:grid;
+  grid-template-columns:1fr 180px 180px 150px;
+  gap:18px;
+  margin-bottom:34px;
+}
+
+input,select{
+  padding:16px 18px;
+  border:1px solid var(--borde);
+  border-radius:10px;
+  background:white;
+  font-size:15px;
+}
+
+.stock-total{
+  background:var(--beige);
+  color:var(--verde-oscuro);
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+  font-weight:bold;
+  font-family:Arial, sans-serif;
+}
+
+.card{
+  background:white;
+  border:1px solid var(--borde);
+  border-radius:18px;
+  box-shadow:var(--sombra);
+  display:grid;
+  grid-template-columns:260px 1fr 270px;
+  gap:34px;
+  padding:22px;
+  margin-bottom:22px;
+  align-items:center;
+}
+
+.card img{
+  width:100%;
+  height:250px;
+  object-fit:cover;
+  border-radius:14px;
+  background:var(--beige);
+}
+
+.ref{
+  font-size:28px;
+  color:var(--verde);
+  margin-bottom:16px;
+}
+
+.decor{
+  color:var(--maquillaje);
+  font-size:30px;
+  margin-bottom:12px;
+}
+
+.desc{
+  font-size:29px;
+  text-transform:uppercase;
+  line-height:1.1;
+  color:#38322c;
+  margin-bottom:12px;
+}
+
+.coleccion{
+  color:var(--maquillaje);
+  font-style:italic;
+  margin-bottom:24px;
+}
+
+.badge{
+  background:var(--verde-claro);
+  color:var(--verde);
+  padding:8px 14px;
+  border-radius:20px;
+  font-family:Arial, sans-serif;
+  font-size:13px;
+}
+
+.tabla{
+  border:1px solid var(--borde);
+  border-radius:14px;
+  overflow:hidden;
+  font-family:Arial, sans-serif;
+}
+
+.tabla table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.tabla th{
+  background:#fbf7ef;
+  color:var(--verde-oscuro);
+  padding:13px;
+  text-align:center;
+}
+
+.tabla td{
+  padding:13px;
+  border-top:1px solid var(--borde);
+  text-align:center;
+}
+
+.tabla tfoot td{
+  background:var(--verde-claro);
+  font-size:20px;
+  font-family:Georgia, serif;
+  color:var(--verde-oscuro);
+  font-weight:bold;
+}
+
+.footer{
+  position:fixed;
+  bottom:0;
+  left:250px;
+  right:0;
+  background:var(--verde);
+  color:white;
+  text-align:center;
+  padding:14px;
+  letter-spacing:2px;
+}
+
+.loading{
+  padding:40px;
+  text-align:center;
+  color:var(--verde);
+}
+
+@media(max-width:900px){
+  .app{display:block}
+  .sidebar{height:auto;position:relative}
+  .sidebar-frase{display:none}
+  .main{padding:25px 18px 80px}
+  .header{display:block}
+  h1{font-size:36px}
+  .filtros{grid-template-columns:1fr}
+  .card{grid-template-columns:1fr}
+  .footer{left:0}
+}
 </style>
 </head>
 
 <body>
+<div class="app">
 
-<header>
-  <div class="logo">Abuela Tata</div>
-  <div class="sub">Catálogo Stock Disponible</div>
-</header>
+  <aside class="sidebar">
+    <div class="logo">Abuela Tata</div>
+    <div class="sublogo">Catálogo Stock</div>
 
-<div class="controls">
-  <input id="buscador" placeholder="Buscar referencia o descripción">
-  <button onclick="cargarStock()">Actualizar stock</button>
-  <button onclick="generarPDF()">Generar PDF</button>
+    <nav class="menu">
+      <a class="active">Catálogo</a>
+      <a onclick="generarPDF()">Generar PDF</a>
+      <a>Clientes</a>
+      <a>Configuración</a>
+      <a>Ayuda</a>
+    </nav>
+
+    <div class="sidebar-frase">
+      “Hecho con amor,<br>
+      pensado para<br>
+      los más pequeños.”<br><br>
+      ABUELA TATA
+    </div>
+  </aside>
+
+  <main class="main" id="pdfArea">
+    <section class="header">
+      <div>
+        <h1>Catálogo de Stock</h1>
+        <p>Consulta todo el stock disponible de <span>Ceremonia 26</span></p>
+      </div>
+      <button class="btn" onclick="generarPDF()">GENERAR PDF</button>
+    </section>
+
+    <section class="filtros">
+      <input id="buscar" placeholder="Buscar por referencia o descripción..." oninput="pintar()">
+      <select id="filtroTalla" onchange="pintar()">
+        <option value="">Filtrar tallas</option>
+      </select>
+      <select id="ordenar" onchange="pintar()">
+        <option value="referencia">Ordenar por referencia</option>
+        <option value="stock">Ordenar por stock</option>
+      </select>
+      <div class="stock-total" id="stockTotal">Stock total: 0 uds</div>
+    </section>
+
+    <section id="contenedor" class="loading">Cargando catálogo...</section>
+  </main>
 </div>
 
-<div id="estado" class="estado">Cargando stock...</div>
-
-<div id="pdfArea">
-  <div id="catalogo" class="grid"></div>
-</div>
+<div class="footer">ABUELA TATA · Moda infantil hecha con amor</div>
 
 <script>
-const SUPABASE_URL = "https://qoyrjhgjtydbcngfnyqn.supabase.co";
-const SUPABASE_KEY = "sb_publishable_w1UF4CwiWSCD5Ykd5yejfw_O--zV3OL";
+const SUPABASE_URL = 'https://qoyrjhgjtydbcngfnyqn.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_w1UF4CwiWSCD5Ykd5yejfw_O--zV3OL';
+const TABLA = 'stock_ceremonia26';
 
-const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-let articulos = [];
+const cliente = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-async function cargarStock(){
-  document.getElementById("estado").innerText = "Cargando stock...";
+let datos = [];
+let agrupados = [];
 
-  const { data, error } = await client
-    .from("stock_ceremonia26")
-    .select("referencia, descripcion, precio, talla, stock")
-    .gt("stock", 0)
-    .order("referencia", { ascending: true });
+async function cargarDatos(){
+  const { data, error } = await cliente
+    .from(TABLA)
+    .select('referencia, descripcion, precio, talla, stock')
+    .order('referencia', { ascending:true });
 
   if(error){
-    document.getElementById("estado").innerText = "Error cargando stock: " + error.message;
+    document.getElementById('contenedor').innerHTML =
+      'Error cargando Supabase. Revisa la publishable key.';
+    console.error(error);
     return;
   }
 
-  const agrupado = {};
+  datos = data || [];
+  prepararTallas();
+  agrupar();
+  pintar();
+}
 
-  data.forEach(item => {
-    const ref = item.referencia;
-    if(!agrupado[ref]){
-      agrupado[ref] = {
+function prepararTallas(){
+  const tallas = [...new Set(datos.map(x => x.talla))].sort();
+  const select = document.getElementById('filtroTalla');
+  tallas.forEach(t=>{
+    const op=document.createElement('option');
+    op.value=t;
+    op.textContent=t;
+    select.appendChild(op);
+  });
+}
+
+function agrupar(){
+  const mapa = {};
+
+  datos.forEach(row=>{
+    const ref = row.referencia;
+    if(!mapa[ref]){
+      mapa[ref] = {
         referencia: ref,
-        descripcion: item.descripcion || "",
-        precio: item.precio || "",
+        descripcion: row.descripcion || '',
+        precio: row.precio || '',
         tallas: [],
         total: 0
       };
     }
-    agrupado[ref].tallas.push({
-      talla: item.talla,
-      stock: item.stock
+
+    const stock = Number(row.stock || 0);
+    mapa[ref].tallas.push({
+      talla: row.talla,
+      stock
     });
-    agrupado[ref].total += Number(item.stock || 0);
+    mapa[ref].total += stock;
   });
 
-  articulos = Object.values(agrupado);
-  pintarCatalogo();
+  agrupados = Object.values(mapa);
 }
 
-function pintarCatalogo(){
-  const texto = document.getElementById("buscador").value.toLowerCase();
-  const contenedor = document.getElementById("catalogo");
-  contenedor.innerHTML = "";
+function pintar(){
+  const contenedor = document.getElementById('contenedor');
+  const buscar = document.getElementById('buscar').value.toLowerCase();
+  const tallaFiltro = document.getElementById('filtroTalla').value;
+  const ordenar = document.getElementById('ordenar').value;
 
-  const filtrados = articulos.filter(a =>
-    a.referencia.toLowerCase().includes(texto) ||
-    a.descripcion.toLowerCase().includes(texto)
-  );
+  let lista = agrupados.filter(item=>{
+    const coincideBusqueda =
+      item.referencia.toLowerCase().includes(buscar) ||
+      item.descripcion.toLowerCase().includes(buscar);
 
-  document.getElementById("estado").innerText =
-    filtrados.length + " artículos encontrados";
+    const coincideTalla = !tallaFiltro ||
+      item.tallas.some(t => t.talla === tallaFiltro && t.stock > 0);
 
-  filtrados.forEach(a => {
-    const img = `images/${a.referencia}.jpg`;
+    return coincideBusqueda && coincideTalla && item.total > 0;
+  });
 
-    const filas = a.tallas.map(t =>
-      `<tr><td>${t.talla}</td><td>${t.stock}</td></tr>`
-    ).join("");
+  if(ordenar === 'stock'){
+    lista.sort((a,b)=>b.total-a.total);
+  }else{
+    lista.sort((a,b)=>a.referencia.localeCompare(b.referencia));
+  }
 
-    contenedor.innerHTML += `
-      <div class="card">
-        <img src="${img}" onerror="this.src=''; this.style.display='none';">
-        <div class="ref">${a.referencia}</div>
-        <div class="desc">${a.descripcion}</div>
+  const total = lista.reduce((sum,item)=>sum+item.total,0);
+  document.getElementById('stockTotal').textContent = `Stock total: ${total} uds`;
+
+  if(lista.length===0){
+    contenedor.innerHTML = '<div class="loading">No hay artículos con esos filtros.</div>';
+    return;
+  }
+
+  contenedor.innerHTML = lista.map(item => `
+    <article class="card">
+      <img src="images/${item.referencia}.jpg" onerror="this.src='https://via.placeholder.com/500x500/f8f2e8/6f806b?text=${item.referencia}'">
+
+      <div>
+        <div class="ref">☘ ${item.referencia}</div>
+        <div class="decor">♡</div>
+        <div class="desc">${item.descripcion}</div>
+        <div class="coleccion">Colección Ceremonia 26</div>
+        <span class="badge">● Disponible</span>
+      </div>
+
+      <div class="tabla">
         <table>
           <thead>
-            <tr><th>Talla</th><th>Unidades</th></tr>
+            <tr>
+              <th>TALLA</th>
+              <th>STOCK</th>
+            </tr>
           </thead>
-          <tbody>${filas}</tbody>
+          <tbody>
+            ${item.tallas.map(t=>`
+              <tr>
+                <td>${t.talla}</td>
+                <td>${t.stock}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>TOTAL</td>
+              <td>${item.total} uds</td>
+            </tr>
+          </tfoot>
         </table>
-        <div class="total">Total: ${a.total} uds</div>
       </div>
-    `;
-  });
+    </article>
+  `).join('');
 }
 
 function generarPDF(){
-  const elemento = document.getElementById("pdfArea");
+  const elemento = document.getElementById('pdfArea');
   const opciones = {
     margin: 8,
-    filename: "catalogo-stock-abuela-tata.pdf",
-    image: { type: "jpeg", quality: 0.98 },
+    filename: 'catalogo-stock-abuelatata.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
     html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
   html2pdf().set(opciones).from(elemento).save();
 }
 
-document.getElementById("buscador").addEventListener("input", pintarCatalogo);
-cargarStock();
+cargarDatos();
 </script>
-
 </body>
 </html>
