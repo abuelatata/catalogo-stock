@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Catálogo de Stock · Abuela Tata</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 :root{
   --verde:#6f806b;
-  --verde-oscuro:#55684f;
+  --verde-oscuro:#52664d;
   --verde-claro:#eef3ec;
   --beige:#f8f2e8;
   --marfil:#fffdf8;
@@ -25,7 +24,7 @@
 
 body{
   margin:0;
-  font-family:"Georgia", serif;
+  font-family:Georgia, "Times New Roman", serif;
   background:var(--marfil);
   color:var(--texto);
 }
@@ -40,16 +39,12 @@ body{
   background:linear-gradient(180deg,#fbf4e9,#fffaf2);
   padding:30px 24px;
   border-right:1px solid var(--borde);
-  position:sticky;
-  top:0;
-  height:100vh;
 }
 
 .logo{
   font-size:34px;
   color:var(--verde);
   font-style:italic;
-  margin-bottom:4px;
 }
 
 .sublogo{
@@ -57,30 +52,31 @@ body{
   color:var(--maquillaje);
   font-size:12px;
   text-transform:uppercase;
-  margin-bottom:60px;
+  margin-bottom:50px;
 }
 
-.menu a{
+.menu button{
+  width:100%;
   display:block;
+  border:0;
+  background:transparent;
   padding:14px 18px;
   border-radius:28px;
   margin-bottom:12px;
   color:var(--texto);
-  text-decoration:none;
+  text-align:left;
   font-family:Arial, sans-serif;
   font-size:15px;
+  cursor:pointer;
 }
 
-.menu a.active{
+.menu button.active{
   background:var(--verde);
   color:white;
 }
 
 .sidebar-frase{
-  position:absolute;
-  bottom:35px;
-  left:24px;
-  right:24px;
+  margin-top:80px;
   color:#8b7a68;
   font-style:italic;
   font-size:16px;
@@ -170,7 +166,9 @@ input,select{
 .card img{
   width:100%;
   height:250px;
-  object-fit:cover;
+  object-fit:contain;
+  object-position:center;
+  padding:10px;
   border-radius:14px;
   background:var(--beige);
 }
@@ -178,13 +176,13 @@ input,select{
 .ref{
   font-size:28px;
   color:var(--verde);
-  margin-bottom:16px;
+  margin-bottom:12px;
 }
 
 .decor{
   color:var(--maquillaje);
   font-size:30px;
-  margin-bottom:12px;
+  margin-bottom:8px;
 }
 
 .desc{
@@ -198,7 +196,7 @@ input,select{
 .coleccion{
   color:var(--maquillaje);
   font-style:italic;
-  margin-bottom:24px;
+  margin-bottom:20px;
 }
 
 .badge{
@@ -259,12 +257,12 @@ input,select{
   padding:40px;
   text-align:center;
   color:var(--verde);
+  font-size:18px;
 }
 
 @media(max-width:900px){
   .app{display:block}
-  .sidebar{height:auto;position:relative}
-  .sidebar-frase{display:none}
+  .sidebar{height:auto}
   .main{padding:25px 18px 80px}
   .header{display:block}
   h1{font-size:36px}
@@ -272,10 +270,50 @@ input,select{
   .card{grid-template-columns:1fr}
   .footer{left:0}
 }
+
+@media print{
+  .sidebar,
+  .filtros,
+  .btn,
+  .footer{
+    display:none!important;
+  }
+
+  .app{
+    display:block;
+  }
+
+  .main{
+    padding:10mm;
+  }
+
+  .header{
+    display:block;
+    margin-bottom:15mm;
+  }
+
+  .card{
+    page-break-inside:avoid;
+    break-inside:avoid;
+    box-shadow:none;
+    border:1px solid #ddd;
+    grid-template-columns:45% 25% 30%;
+  }
+
+  .card img{
+    height:210px;
+    object-fit:contain;
+  }
+
+  body{
+    background:white;
+  }
+}
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
   <aside class="sidebar">
@@ -283,11 +321,11 @@ input,select{
     <div class="sublogo">Catálogo Stock</div>
 
     <nav class="menu">
-      <a class="active">Catálogo</a>
-      <a onclick="generarPDF()">Generar PDF</a>
-      <a>Clientes</a>
-      <a>Configuración</a>
-      <a>Ayuda</a>
+      <button class="active" onclick="scrollInicio()">Catálogo</button>
+      <button onclick="generarPDF()">Generar PDF</button>
+      <button onclick="alert('Filtro de clientes lo añadimos en la siguiente versión')">Clientes</button>
+      <button onclick="alert('Configuración pendiente')">Configuración</button>
+      <button onclick="alert('Ayuda: busca una referencia y pulsa Generar PDF')">Ayuda</button>
     </nav>
 
     <div class="sidebar-frase">
@@ -309,13 +347,16 @@ input,select{
 
     <section class="filtros">
       <input id="buscar" placeholder="Buscar por referencia o descripción..." oninput="pintar()">
+
       <select id="filtroTalla" onchange="pintar()">
-        <option value="">Filtrar tallas</option>
+        <option value="">Todas las tallas</option>
       </select>
+
       <select id="ordenar" onchange="pintar()">
         <option value="referencia">Ordenar por referencia</option>
         <option value="stock">Ordenar por stock</option>
       </select>
+
       <div class="stock-total" id="stockTotal">Stock total: 0 uds</div>
     </section>
 
@@ -343,7 +384,7 @@ async function cargarDatos(){
 
   if(error){
     document.getElementById('contenedor').innerHTML =
-      'Error cargando Supabase. Revisa la publishable key.';
+      'Error cargando Supabase. Revisa la clave o permisos de lectura.';
     console.error(error);
     return;
   }
@@ -355,7 +396,9 @@ async function cargarDatos(){
 }
 
 function prepararTallas(){
-  const tallas = [...new Set(datos.map(x => x.talla))].sort();
+  const tallas = [...new Set(datos.map(x => x.talla).filter(Boolean))];
+  tallas.sort((a,b)=>ordenTalla(a)-ordenTalla(b));
+
   const select = document.getElementById('filtroTalla');
   tallas.forEach(t=>{
     const op=document.createElement('option');
@@ -365,11 +408,21 @@ function prepararTallas(){
   });
 }
 
+function ordenTalla(t){
+  const orden = {
+    '3M':1,'6M':2,'9M':3,'12M':4,'18M':5,
+    '2Y':6,'3Y':7,'4Y':8,'5Y':9,'6Y':10,
+    '7Y':11,'8Y':12,'9Y':13,'10Y':14,'12Y':15
+  };
+  return orden[String(t).toUpperCase()] || 99;
+}
+
 function agrupar(){
   const mapa = {};
 
   datos.forEach(row=>{
-    const ref = row.referencia;
+    const ref = String(row.referencia || '').trim();
+
     if(!mapa[ref]){
       mapa[ref] = {
         referencia: ref,
@@ -381,14 +434,20 @@ function agrupar(){
     }
 
     const stock = Number(row.stock || 0);
+
     mapa[ref].tallas.push({
       talla: row.talla,
       stock
     });
+
     mapa[ref].total += stock;
   });
 
   agrupados = Object.values(mapa);
+
+  agrupados.forEach(item=>{
+    item.tallas.sort((a,b)=>ordenTalla(a.talla)-ordenTalla(b.talla));
+  });
 }
 
 function pintar(){
@@ -424,7 +483,11 @@ function pintar(){
 
   contenedor.innerHTML = lista.map(item => `
     <article class="card">
-      <img src="images/${item.referencia}.jpg" onerror="this.src='https://via.placeholder.com/500x500/f8f2e8/6f806b?text=${item.referencia}'">
+      <img 
+        src="images/${item.referencia}.jpg" 
+        alt="${item.referencia}"
+        onerror="this.src='https://placehold.co/500x500/f8f2e8/6f806b?text=${item.referencia}'"
+      >
 
       <div>
         <div class="ref">☘ ${item.referencia}</div>
@@ -463,18 +526,15 @@ function pintar(){
 }
 
 function generarPDF(){
-  const elemento = document.getElementById('pdfArea');
-  const opciones = {
-    margin: 8,
-    filename: 'catalogo-stock-abuelatata.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  };
-  html2pdf().set(opciones).from(elemento).save();
+  window.print();
+}
+
+function scrollInicio(){
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 cargarDatos();
 </script>
+
 </body>
 </html>
