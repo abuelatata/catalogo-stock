@@ -3,310 +3,308 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catálogo de Stock · Abuela Tata</title>
+<title>Catálogo Stock · Abuela Tata</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
   --verde:#6f806b;
-  --verde-oscuro:#52664d;
-  --verde-claro:#eef3ec;
+  --verde2:#52664d;
   --beige:#f8f2e8;
   --marfil:#fffdf8;
   --maquillaje:#dca88c;
   --texto:#3f3a34;
   --borde:#eadfce;
-  --sombra:0 8px 24px rgba(92,73,54,.12);
 }
 
 *{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:Georgia, "Times New Roman", serif;
   background:var(--marfil);
   color:var(--texto);
-}
-
-.app{
-  display:grid;
-  grid-template-columns:250px 1fr;
-  min-height:100vh;
-}
-
-.sidebar{
-  background:linear-gradient(180deg,#fbf4e9,#fffaf2);
-  padding:30px 24px;
-  border-right:1px solid var(--borde);
-}
-
-.logo{
-  font-size:34px;
-  color:var(--verde);
-  font-style:italic;
-}
-
-.sublogo{
-  letter-spacing:4px;
-  color:var(--maquillaje);
-  font-size:12px;
-  text-transform:uppercase;
-  margin-bottom:50px;
-}
-
-.menu button{
-  width:100%;
-  display:block;
-  border:0;
-  background:transparent;
-  padding:14px 18px;
-  border-radius:28px;
-  margin-bottom:12px;
-  color:var(--texto);
-  text-align:left;
   font-family:Arial, sans-serif;
-  font-size:15px;
-  cursor:pointer;
 }
 
-.menu button.active{
+header{
+  background:linear-gradient(135deg,#fbf4e9,#fffdf8);
+  padding:26px 34px;
+  border-bottom:1px solid var(--borde);
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  align-items:center;
+}
+
+.brand{
+  font-family:Georgia, serif;
+  font-size:34px;
+  font-style:italic;
+  color:var(--verde);
+}
+
+.subtitle{
+  font-size:13px;
+  letter-spacing:3px;
+  color:var(--maquillaje);
+  text-transform:uppercase;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+button{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.btn-main{
+  background:var(--maquillaje);
+  color:white;
+}
+
+.btn-soft{
   background:var(--verde);
   color:white;
 }
 
-.sidebar-frase{
-  margin-top:80px;
-  color:#8b7a68;
-  font-style:italic;
-  font-size:16px;
-  line-height:1.4;
-}
-
-.main{
-  padding:45px 42px 90px;
-}
-
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  border-bottom:1px solid var(--borde);
-  padding-bottom:30px;
-  margin-bottom:32px;
-}
-
-h1{
-  margin:0;
-  font-size:48px;
-  color:var(--verde-oscuro);
-  font-weight:500;
-}
-
-.header p{
-  font-family:Arial, sans-serif;
-  font-size:17px;
-  margin:8px 0 0;
-}
-
-.header span{
-  color:var(--maquillaje);
-  font-weight:bold;
-}
-
-.btn{
-  background:var(--maquillaje);
-  border:0;
-  color:white;
-  padding:14px 24px;
-  border-radius:10px;
-  font-weight:bold;
-  cursor:pointer;
-  font-family:Arial, sans-serif;
+.panel{
+  padding:24px 34px;
 }
 
 .filtros{
   display:grid;
-  grid-template-columns:1fr 180px 180px 150px;
-  gap:18px;
-  margin-bottom:34px;
+  grid-template-columns:1fr 180px 180px 170px;
+  gap:12px;
+  margin-bottom:20px;
 }
 
-input,select{
-  padding:16px 18px;
+input, select{
+  width:100%;
+  padding:13px 14px;
   border:1px solid var(--borde);
   border-radius:10px;
   background:white;
-  font-size:15px;
 }
 
-.stock-total{
+.resumen{
   background:var(--beige);
-  color:var(--verde-oscuro);
-  padding:15px;
+  color:var(--verde2);
   border-radius:10px;
+  padding:13px;
   text-align:center;
   font-weight:bold;
-  font-family:Arial, sans-serif;
+}
+
+.catalogo{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:18px;
 }
 
 .card{
   background:white;
   border:1px solid var(--borde);
   border-radius:18px;
-  box-shadow:var(--sombra);
+  padding:14px;
   display:grid;
-  grid-template-columns:260px 1fr 270px;
-  gap:34px;
-  padding:22px;
-  margin-bottom:22px;
-  align-items:center;
+  grid-template-columns:42% 58%;
+  gap:16px;
+  min-height:230px;
+  box-shadow:0 8px 22px rgba(92,73,54,.10);
 }
 
-.card img{
-  width:100%;
-  height:250px;
-  object-fit:contain;
-  object-position:center;
-  padding:10px;
-  border-radius:14px;
+.photo{
   background:var(--beige);
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  min-height:210px;
+}
+
+.photo img{
+  width:100%;
+  height:100%;
+  max-height:230px;
+  object-fit:contain;
+  padding:6px;
+}
+
+.info{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-width:0;
 }
 
 .ref{
-  font-size:28px;
+  font-family:Georgia, serif;
   color:var(--verde);
-  margin-bottom:12px;
-}
-
-.decor{
-  color:var(--maquillaje);
-  font-size:30px;
-  margin-bottom:8px;
+  font-size:26px;
+  margin-bottom:4px;
 }
 
 .desc{
-  font-size:29px;
+  font-family:Georgia, serif;
+  font-size:20px;
+  line-height:1.08;
   text-transform:uppercase;
-  line-height:1.1;
-  color:#38322c;
-  margin-bottom:12px;
+  color:#3c352f;
+  margin-bottom:8px;
+  word-break:break-word;
 }
 
-.coleccion{
-  color:var(--maquillaje);
-  font-style:italic;
-  margin-bottom:20px;
-}
-
-.badge{
-  background:var(--verde-claro);
-  color:var(--verde);
-  padding:8px 14px;
-  border-radius:20px;
-  font-family:Arial, sans-serif;
-  font-size:13px;
-}
-
-.tabla{
+.precio{
+  display:inline-block;
+  background:#fbf7ef;
   border:1px solid var(--borde);
-  border-radius:14px;
-  overflow:hidden;
-  font-family:Arial, sans-serif;
+  padding:6px 10px;
+  border-radius:20px;
+  color:var(--maquillaje);
+  font-weight:bold;
+  margin-bottom:10px;
+  font-size:14px;
 }
 
-.tabla table{
+table{
   width:100%;
   border-collapse:collapse;
+  font-size:13px;
+  overflow:hidden;
+  border-radius:10px;
 }
 
-.tabla th{
-  background:#fbf7ef;
-  color:var(--verde-oscuro);
-  padding:13px;
+th{
+  background:#f5efe5;
+  color:var(--verde2);
+}
+
+th,td{
+  padding:6px;
+  border-bottom:1px solid var(--borde);
   text-align:center;
 }
 
-.tabla td{
-  padding:13px;
-  border-top:1px solid var(--borde);
-  text-align:center;
+tfoot td{
+  background:#eef3ec;
+  color:var(--verde2);
+  font-weight:bold;
+  font-size:15px;
 }
 
-.tabla tfoot td{
-  background:var(--verde-claro);
-  font-size:20px;
-  font-family:Georgia, serif;
-  color:var(--verde-oscuro);
+.estado{
+  margin-top:8px;
+  color:var(--verde);
+  font-size:13px;
   font-weight:bold;
 }
 
-.footer{
-  position:fixed;
-  bottom:0;
-  left:250px;
-  right:0;
-  background:var(--verde);
-  color:white;
-  text-align:center;
-  padding:14px;
-  letter-spacing:2px;
-}
-
 .loading{
-  padding:40px;
+  grid-column:1/-1;
   text-align:center;
+  padding:50px;
   color:var(--verde);
-  font-size:18px;
 }
 
 @media(max-width:900px){
-  .app{display:block}
-  .sidebar{height:auto}
-  .main{padding:25px 18px 80px}
-  .header{display:block}
-  h1{font-size:36px}
+  header{display:block}
+  .actions{margin-top:18px}
+  .panel{padding:18px}
   .filtros{grid-template-columns:1fr}
+  .catalogo{grid-template-columns:1fr}
   .card{grid-template-columns:1fr}
-  .footer{left:0}
+  .photo{min-height:260px}
 }
 
 @media print{
-  .sidebar,
-  .filtros,
-  .btn,
-  .footer{
+  @page{
+    size:A4 portrait;
+    margin:8mm;
+  }
+
+  header{
+    padding:0 0 7mm 0;
+    margin-bottom:5mm;
+    background:white;
+  }
+
+  .actions,
+  .filtros{
     display:none!important;
   }
 
-  .app{
-    display:block;
+  .panel{
+    padding:0;
   }
 
-  .main{
-    padding:10mm;
-  }
-
-  .header{
-    display:block;
-    margin-bottom:15mm;
+  .catalogo{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:5mm;
   }
 
   .card{
-    page-break-inside:avoid;
-    break-inside:avoid;
     box-shadow:none;
     border:1px solid #ddd;
-    grid-template-columns:45% 25% 30%;
+    border-radius:8px;
+    padding:5mm;
+    min-height:0;
+    height:128mm;
+    page-break-inside:avoid;
+    break-inside:avoid;
+    grid-template-columns:1fr;
+    gap:3mm;
   }
 
-  .card img{
-    height:210px;
-    object-fit:contain;
+  .photo{
+    min-height:55mm;
+    height:58mm;
+    border-radius:6px;
   }
 
-  body{
-    background:white;
+  .photo img{
+    max-height:58mm;
+    padding:2mm;
+  }
+
+  .ref{
+    font-size:17pt;
+  }
+
+  .desc{
+    font-size:12pt;
+    max-height:28mm;
+    overflow:hidden;
+  }
+
+  .precio{
+    font-size:9pt;
+    padding:3px 8px;
+  }
+
+  table{
+    font-size:8.5pt;
+  }
+
+  th,td{
+    padding:3px;
+  }
+
+  tfoot td{
+    font-size:10pt;
+  }
+
+  .estado{
+    display:none;
   }
 }
 </style>
@@ -314,57 +312,38 @@ input,select{
 
 <body>
 
-<div class="app">
+<header>
+  <div>
+    <div class="brand">Abuela Tata</div>
+    <div class="subtitle">Catálogo de stock disponible</div>
+  </div>
 
-  <aside class="sidebar">
-    <div class="logo">Abuela Tata</div>
-    <div class="sublogo">Catálogo Stock</div>
+  <div class="actions">
+    <button class="btn-soft" onclick="window.scrollTo({top:0,behavior:'smooth'})">Inicio</button>
+    <button class="btn-main" onclick="generarPDF()">Generar PDF</button>
+  </div>
+</header>
 
-    <nav class="menu">
-      <button class="active" onclick="scrollInicio()">Catálogo</button>
-      <button onclick="generarPDF()">Generar PDF</button>
-      <button onclick="alert('Filtro de clientes lo añadimos en la siguiente versión')">Clientes</button>
-      <button onclick="alert('Configuración pendiente')">Configuración</button>
-      <button onclick="alert('Ayuda: busca una referencia y pulsa Generar PDF')">Ayuda</button>
-    </nav>
+<section class="panel">
+  <div class="filtros">
+    <input id="buscar" placeholder="Buscar referencia o descripción..." oninput="pintar()">
 
-    <div class="sidebar-frase">
-      “Hecho con amor,<br>
-      pensado para<br>
-      los más pequeños.”<br><br>
-      ABUELA TATA
-    </div>
-  </aside>
+    <select id="filtroTalla" onchange="pintar()">
+      <option value="">Todas las tallas</option>
+    </select>
 
-  <main class="main" id="pdfArea">
-    <section class="header">
-      <div>
-        <h1>Catálogo de Stock</h1>
-        <p>Consulta todo el stock disponible de <span>Ceremonia 26</span></p>
-      </div>
-      <button class="btn" onclick="generarPDF()">GENERAR PDF</button>
-    </section>
+    <select id="ordenar" onchange="pintar()">
+      <option value="referencia">Ordenar por referencia</option>
+      <option value="stock">Ordenar por stock</option>
+    </select>
 
-    <section class="filtros">
-      <input id="buscar" placeholder="Buscar por referencia o descripción..." oninput="pintar()">
+    <div class="resumen" id="stockTotal">Stock: 0 uds</div>
+  </div>
 
-      <select id="filtroTalla" onchange="pintar()">
-        <option value="">Todas las tallas</option>
-      </select>
-
-      <select id="ordenar" onchange="pintar()">
-        <option value="referencia">Ordenar por referencia</option>
-        <option value="stock">Ordenar por stock</option>
-      </select>
-
-      <div class="stock-total" id="stockTotal">Stock total: 0 uds</div>
-    </section>
-
-    <section id="contenedor" class="loading">Cargando catálogo...</section>
-  </main>
-</div>
-
-<div class="footer">ABUELA TATA · Moda infantil hecha con amor</div>
+  <div class="catalogo" id="contenedor">
+    <div class="loading">Cargando catálogo...</div>
+  </div>
+</section>
 
 <script>
 const SUPABASE_URL = 'https://qoyrjhgjtydbcngfnyqn.supabase.co';
@@ -384,7 +363,7 @@ async function cargarDatos(){
 
   if(error){
     document.getElementById('contenedor').innerHTML =
-      'Error cargando Supabase. Revisa la clave o permisos de lectura.';
+      '<div class="loading">Error cargando Supabase. Revisa la clave o permisos.</div>';
     console.error(error);
     return;
   }
@@ -409,12 +388,15 @@ function prepararTallas(){
 }
 
 function ordenTalla(t){
+  const s = String(t).toUpperCase().replace(/\s/g,'');
   const orden = {
     '3M':1,'6M':2,'9M':3,'12M':4,'18M':5,
-    '2Y':6,'3Y':7,'4Y':8,'5Y':9,'6Y':10,
-    '7Y':11,'8Y':12,'9Y':13,'10Y':14,'12Y':15
+    '2A':6,'2Y':6,'3A':7,'3Y':7,'4A':8,'4Y':8,
+    '5A':9,'5Y':9,'6A':10,'6Y':10,'7A':11,'7Y':11,
+    '8A':12,'8Y':12,'9A':13,'9Y':13,'10A':14,'10Y':14,
+    '12A':15,'12Y':15
   };
-  return orden[String(t).toUpperCase()] || 99;
+  return orden[s] || 99;
 }
 
 function agrupar(){
@@ -422,6 +404,7 @@ function agrupar(){
 
   datos.forEach(row=>{
     const ref = String(row.referencia || '').trim();
+    if(!ref) return;
 
     if(!mapa[ref]){
       mapa[ref] = {
@@ -435,15 +418,17 @@ function agrupar(){
 
     const stock = Number(row.stock || 0);
 
-    mapa[ref].tallas.push({
-      talla: row.talla,
-      stock
-    });
+    if(stock > 0){
+      mapa[ref].tallas.push({
+        talla: row.talla,
+        stock
+      });
 
-    mapa[ref].total += stock;
+      mapa[ref].total += stock;
+    }
   });
 
-  agrupados = Object.values(mapa);
+  agrupados = Object.values(mapa).filter(x=>x.total>0);
 
   agrupados.forEach(item=>{
     item.tallas.sort((a,b)=>ordenTalla(a.talla)-ordenTalla(b.talla));
@@ -464,7 +449,7 @@ function pintar(){
     const coincideTalla = !tallaFiltro ||
       item.tallas.some(t => t.talla === tallaFiltro && t.stock > 0);
 
-    return coincideBusqueda && coincideTalla && item.total > 0;
+    return coincideBusqueda && coincideTalla;
   });
 
   if(ordenar === 'stock'){
@@ -474,7 +459,8 @@ function pintar(){
   }
 
   const total = lista.reduce((sum,item)=>sum+item.total,0);
-  document.getElementById('stockTotal').textContent = `Stock total: ${total} uds`;
+  document.getElementById('stockTotal').textContent =
+    `${lista.length} refs · ${total} uds`;
 
   if(lista.length===0){
     contenedor.innerHTML = '<div class="loading">No hay artículos con esos filtros.</div>';
@@ -483,26 +469,26 @@ function pintar(){
 
   contenedor.innerHTML = lista.map(item => `
     <article class="card">
-      <img 
-        src="images/${item.referencia}.jpg" 
-        alt="${item.referencia}"
-        onerror="this.src='https://placehold.co/500x500/f8f2e8/6f806b?text=${item.referencia}'"
-      >
-
-      <div>
-        <div class="ref">☘ ${item.referencia}</div>
-        <div class="decor">♡</div>
-        <div class="desc">${item.descripcion}</div>
-        <div class="coleccion">Colección Ceremonia 26</div>
-        <span class="badge">● Disponible</span>
+      <div class="photo">
+        <img 
+          src="images/${item.referencia}.jpg" 
+          alt="${item.referencia}"
+          onerror="this.src='https://placehold.co/600x600/f8f2e8/6f806b?text=${item.referencia}'"
+        >
       </div>
 
-      <div class="tabla">
+      <div class="info">
+        <div>
+          <div class="ref">${item.referencia}</div>
+          <div class="desc">${item.descripcion || 'Artículo disponible'}</div>
+          <div class="precio">${formatoPrecio(item.precio)}</div>
+        </div>
+
         <table>
           <thead>
             <tr>
-              <th>TALLA</th>
-              <th>STOCK</th>
+              <th>Talla</th>
+              <th>Stock</th>
             </tr>
           </thead>
           <tbody>
@@ -515,22 +501,27 @@ function pintar(){
           </tbody>
           <tfoot>
             <tr>
-              <td>TOTAL</td>
+              <td>Total</td>
               <td>${item.total} uds</td>
             </tr>
           </tfoot>
         </table>
+
+        <div class="estado">Disponible · Ceremonia 26</div>
       </div>
     </article>
   `).join('');
 }
 
-function generarPDF(){
-  window.print();
+function formatoPrecio(precio){
+  if(precio === null || precio === undefined || precio === '') return 'Precio no indicado';
+  const n = Number(precio);
+  if(isNaN(n)) return precio;
+  return n.toLocaleString('es-ES', {style:'currency', currency:'EUR'});
 }
 
-function scrollInicio(){
-  window.scrollTo({top:0, behavior:'smooth'});
+function generarPDF(){
+  window.print();
 }
 
 cargarDatos();
