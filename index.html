@@ -29,7 +29,7 @@ body{
 
 header{
   background:linear-gradient(135deg,#fbf4e9,#fffdf8);
-  padding:18px 28px;
+  padding:16px 22px;
   border-bottom:1px solid var(--borde);
   display:flex;
   justify-content:space-between;
@@ -41,16 +41,30 @@ header{
 
 .brand{
   font-family:Georgia, serif;
-  font-size:32px;
+  font-size:30px;
   font-style:italic;
   color:var(--verde);
 }
 
 .subtitle{
-  font-size:12px;
+  font-size:11px;
   letter-spacing:3px;
   color:var(--maquillaje);
   text-transform:uppercase;
+}
+
+.langs{
+  display:flex;
+  gap:6px;
+  margin-top:8px;
+}
+
+.langs button{
+  padding:5px 7px;
+  border-radius:8px;
+  background:white;
+  border:1px solid var(--borde);
+  font-size:18px;
 }
 
 .actions{
@@ -61,7 +75,7 @@ header{
 button{
   border:0;
   border-radius:12px;
-  padding:11px 16px;
+  padding:11px 15px;
   cursor:pointer;
   font-weight:bold;
 }
@@ -77,14 +91,14 @@ button{
 }
 
 .panel{
-  padding:18px 28px;
+  padding:16px 22px;
 }
 
 .filtros{
   display:grid;
-  grid-template-columns:1fr 170px 170px 160px;
+  grid-template-columns:1fr 160px 160px 150px;
   gap:10px;
-  margin-bottom:16px;
+  margin-bottom:14px;
 }
 
 input, select{
@@ -107,18 +121,18 @@ input, select{
 .catalogo{
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:9px;
 }
 
 .card{
   background:white;
   border:1px solid var(--borde);
   border-radius:16px;
-  padding:12px;
+  padding:11px;
   display:grid;
-  grid-template-columns:160px 1fr;
+  grid-template-columns:170px 1fr;
   gap:18px;
-  min-height:150px;
+  min-height:155px;
   box-shadow:0 6px 18px rgba(92,73,54,.08);
   align-items:center;
 }
@@ -126,7 +140,7 @@ input, select{
 .photo{
   background:var(--beige);
   border-radius:12px;
-  height:135px;
+  height:140px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -145,20 +159,20 @@ input, select{
   content:attr(data-ref);
   font-family:Georgia, serif;
   color:var(--verde);
-  font-size:22px;
+  font-size:20px;
 }
 
 .ref{
   font-family:Georgia, serif;
   color:var(--verde);
-  font-size:31px;
+  font-size:30px;
   line-height:1;
   margin-bottom:4px;
 }
 
 .desc{
   font-family:Georgia, serif;
-  font-size:22px;
+  font-size:21px;
   line-height:1.05;
   text-transform:uppercase;
   color:#3c352f;
@@ -173,12 +187,12 @@ input, select{
   border-radius:20px;
   color:var(--maquillaje);
   font-weight:bold;
-  font-size:16px;
+  font-size:15px;
   margin-bottom:8px;
 }
 
 .tallas-linea{
-  font-size:16px;
+  font-size:15px;
   line-height:1.35;
   color:#4f463d;
   font-weight:bold;
@@ -186,7 +200,7 @@ input, select{
 
 .total-linea{
   margin-top:6px;
-  font-size:15px;
+  font-size:14px;
   color:var(--verde2);
   font-weight:bold;
 }
@@ -200,7 +214,7 @@ input, select{
 @media(max-width:700px){
   header{
     display:block;
-    padding:14px 16px;
+    padding:14px 15px;
   }
 
   .brand{
@@ -216,7 +230,7 @@ input, select{
   }
 
   .panel{
-    padding:12px;
+    padding:11px;
   }
 
   .filtros{
@@ -224,38 +238,41 @@ input, select{
   }
 
   .card{
-    grid-template-columns:42% 58%;
-    gap:12px;
-    padding:12px;
-    margin:0;
-    min-height:190px;
+    grid-template-columns:44% 56%;
+    gap:10px;
+    padding:10px;
+    min-height:178px;
   }
 
   .photo{
-    height:170px;
+    height:160px;
   }
 
   .ref{
-    font-size:28px;
+    font-size:26px;
   }
 
   .desc{
-    font-size:20px;
+    font-size:18px;
   }
 
   .precio{
-    font-size:16px;
+    font-size:14px;
   }
 
   .tallas-linea{
-    font-size:15px;
+    font-size:14px;
+  }
+
+  .total-linea{
+    font-size:13px;
   }
 }
 
 @media print{
   @page{
     size:A4 portrait;
-    margin:8mm;
+    margin:7mm;
   }
 
   body{
@@ -264,20 +281,21 @@ input, select{
 
   header{
     position:static;
-    padding:0 0 4mm 0;
-    margin-bottom:3mm;
+    padding:0 0 3mm 0;
+    margin-bottom:2.5mm;
     background:white;
     border-bottom:1px solid #ddd;
   }
 
   .brand{
-    font-size:22pt;
+    font-size:21pt;
   }
 
   .subtitle{
-    font-size:8pt;
+    font-size:7.5pt;
   }
 
+  .langs,
   .actions,
   .filtros{
     display:none!important;
@@ -288,18 +306,18 @@ input, select{
   }
 
   .catalogo{
-    gap:2mm;
+    gap:1.8mm;
   }
 
   .card{
-    height:38mm;
-    min-height:38mm;
+    height:37mm;
+    min-height:37mm;
     box-shadow:none;
     border:1px solid #ddd;
-    border-radius:4mm;
-    padding:2.5mm;
+    border-radius:3.5mm;
+    padding:2.2mm;
     display:grid;
-    grid-template-columns:32mm 1fr;
+    grid-template-columns:34mm 1fr;
     gap:4mm;
     page-break-inside:avoid;
     break-inside:avoid;
@@ -307,34 +325,34 @@ input, select{
 
   .photo{
     height:32mm;
-    border-radius:3mm;
+    border-radius:2.5mm;
   }
 
   .ref{
-    font-size:14pt;
+    font-size:13.5pt;
     margin-bottom:0.5mm;
   }
 
   .desc{
-    font-size:9pt;
+    font-size:8.7pt;
     line-height:1.05;
-    margin-bottom:1mm;
+    margin-bottom:0.8mm;
   }
 
   .precio{
-    font-size:8pt;
-    padding:0.8mm 2mm;
-    margin-bottom:1mm;
+    font-size:7.5pt;
+    padding:0.7mm 1.8mm;
+    margin-bottom:0.8mm;
   }
 
   .tallas-linea{
-    font-size:7.4pt;
-    line-height:1.18;
+    font-size:7.1pt;
+    line-height:1.16;
   }
 
   .total-linea{
-    font-size:7.5pt;
-    margin-top:1mm;
+    font-size:7.2pt;
+    margin-top:0.8mm;
   }
 }
 </style>
@@ -345,12 +363,21 @@ input, select{
 <header>
   <div>
     <div class="brand">Abuela Tata</div>
-    <div class="subtitle">Catálogo de stock disponible</div>
+    <div class="subtitle" id="txtSubtitulo">Catálogo de stock disponible</div>
+
+    <div class="langs">
+      <button onclick="cambiarIdioma('es')">🇪🇸</button>
+      <button onclick="cambiarIdioma('en')">🇬🇧</button>
+      <button onclick="cambiarIdioma('fr')">🇫🇷</button>
+      <button onclick="cambiarIdioma('it')">🇮🇹</button>
+      <button onclick="cambiarIdioma('pt')">🇵🇹</button>
+      <button onclick="cambiarIdioma('de')">🇩🇪</button>
+    </div>
   </div>
 
   <div class="actions">
-    <button class="btn-soft" onclick="window.scrollTo({top:0,behavior:'smooth'})">Inicio</button>
-    <button class="btn-main" onclick="generarPDF()">Generar PDF</button>
+    <button class="btn-soft" onclick="window.scrollTo({top:0,behavior:'smooth'})" id="btnInicio">Inicio</button>
+    <button class="btn-main" onclick="generarPDF()" id="btnPdf">Generar PDF</button>
   </div>
 </header>
 
@@ -384,6 +411,16 @@ const cliente = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let datos = [];
 let agrupados = [];
+let idioma = 'es';
+
+const textos = {
+  es:{sub:'Catálogo de stock disponible',inicio:'Inicio',pdf:'Generar PDF',buscar:'Buscar referencia o descripción...',tallas:'Todas las tallas',ordRef:'Ordenar por referencia',ordStock:'Ordenar por stock',precio:'Precio',stockTotal:'Stock total',uds:'uds',sin:'No hay artículos con esos filtros.'},
+  en:{sub:'Available stock catalogue',inicio:'Home',pdf:'Generate PDF',buscar:'Search reference or description...',tallas:'All sizes',ordRef:'Sort by reference',ordStock:'Sort by stock',precio:'Price',stockTotal:'Total stock',uds:'units',sin:'No items found with these filters.'},
+  fr:{sub:'Catalogue du stock disponible',inicio:'Accueil',pdf:'Générer PDF',buscar:'Rechercher référence ou description...',tallas:'Toutes les tailles',ordRef:'Trier par référence',ordStock:'Trier par stock',precio:'Prix',stockTotal:'Stock total',uds:'unités',sin:'Aucun article avec ces filtres.'},
+  it:{sub:'Catalogo stock disponibile',inicio:'Inizio',pdf:'Genera PDF',buscar:'Cerca riferimento o descrizione...',tallas:'Tutte le taglie',ordRef:'Ordina per riferimento',ordStock:'Ordina per stock',precio:'Prezzo',stockTotal:'Stock totale',uds:'unità',sin:'Nessun articolo con questi filtri.'},
+  pt:{sub:'Catálogo de stock disponível',inicio:'Início',pdf:'Gerar PDF',buscar:'Pesquisar referência ou descrição...',tallas:'Todos os tamanhos',ordRef:'Ordenar por referência',ordStock:'Ordenar por stock',precio:'Preço',stockTotal:'Stock total',uds:'unid.',sin:'Não há artigos com estes filtros.'},
+  de:{sub:'Verfügbarer Lagerkatalog',inicio:'Start',pdf:'PDF erstellen',buscar:'Referenz oder Beschreibung suchen...',tallas:'Alle Größen',ordRef:'Nach Referenz sortieren',ordStock:'Nach Bestand sortieren',precio:'Preis',stockTotal:'Gesamtbestand',uds:'Stk.',sin:'Keine Artikel mit diesen Filtern.'}
+};
 
 async function cargarDatos(){
   const { data, error } = await cliente
@@ -465,6 +502,7 @@ function agrupar(){
 }
 
 function pintar(){
+  const t = textos[idioma];
   const contenedor = document.getElementById('contenedor');
   const buscar = document.getElementById('buscar').value.toLowerCase();
   const tallaFiltro = document.getElementById('filtroTalla').value;
@@ -489,10 +527,10 @@ function pintar(){
 
   const total = lista.reduce((sum,item)=>sum+item.total,0);
   document.getElementById('stockTotal').textContent =
-    `${lista.length} refs · ${total} uds`;
+    `${lista.length} refs · ${total} ${t.uds}`;
 
   if(lista.length===0){
-    contenedor.innerHTML = '<div class="loading">No hay artículos con esos filtros.</div>';
+    contenedor.innerHTML = `<div class="loading">${t.sin}</div>`;
     return;
   }
 
@@ -509,9 +547,9 @@ function pintar(){
       <div class="info">
         <div class="ref">${item.referencia}</div>
         <div class="desc">${item.descripcion || 'Artículo disponible'}</div>
-        <div class="precio">${formatoPrecio(item.precio)}</div>
+        <div class="precio">${t.precio}: ${formatoPrecio(item.precio)}</div>
         <div class="tallas-linea">${resumenTallas(item.tallas)}</div>
-        <div class="total-linea">Stock total: ${item.total} uds</div>
+        <div class="total-linea">${t.stockTotal}: ${item.total} ${t.uds}</div>
       </div>
     </article>
   `).join('');
@@ -525,10 +563,26 @@ function resumenTallas(tallas){
 }
 
 function formatoPrecio(precio){
-  if(precio === null || precio === undefined || precio === '') return 'Precio no indicado';
+  if(precio === null || precio === undefined || precio === '') return '-';
   const n = Number(precio);
   if(isNaN(n)) return precio;
   return n.toLocaleString('es-ES', {style:'currency', currency:'EUR'});
+}
+
+function cambiarIdioma(lang){
+  idioma = lang;
+  const t = textos[idioma];
+
+  document.getElementById('txtSubtitulo').textContent = t.sub;
+  document.getElementById('btnInicio').textContent = t.inicio;
+  document.getElementById('btnPdf').textContent = t.pdf;
+  document.getElementById('buscar').placeholder = t.buscar;
+
+  document.querySelector('#filtroTalla option[value=""]').textContent = t.tallas;
+  document.querySelector('#ordenar option[value="referencia"]').textContent = t.ordRef;
+  document.querySelector('#ordenar option[value="stock"]').textContent = t.ordStock;
+
+  pintar();
 }
 
 function generarPDF(){
