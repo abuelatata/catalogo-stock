@@ -132,7 +132,7 @@ input, select{
   display:grid;
   grid-template-columns:170px 1fr;
   gap:18px;
-  min-height:155px;
+  min-height:95px;
   box-shadow:0 6px 18px rgba(92,73,54,.08);
   align-items:center;
 }
@@ -140,7 +140,7 @@ input, select{
 .photo{
   background:var(--beige);
   border-radius:12px;
-  height:140px;
+  height:90px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -150,9 +150,8 @@ input, select{
 .photo img{
   width:100%;
   height:100%;
-  object-fit:cover;
-  object-position:center;
-  display:block;
+  object-fit:contain;
+  background:#fff;
 }
 
 .photo.sin-foto::after{
@@ -549,7 +548,7 @@ function pintar(){
         <div class="desc">${item.descripcion || 'Artículo disponible'}</div>
         <div class="precio">${t.precio}: ${formatoPrecio(item.precio)}</div>
         <div class="tallas-linea">${resumenTallas(item.tallas)}</div>
-        <div class="total-linea">${t.stockTotal}: ${item.total} ${t.uds}</div>
+      
       </div>
     </article>
   `).join('');
