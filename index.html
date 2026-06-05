@@ -2,356 +2,244 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Catálogo Stock · Abuela Tata</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
 :root{
-  --verde:#6f806b;
-  --verde2:#52664d;
-  --beige:#f8f2e8;
-  --marfil:#fffdf8;
-  --maquillaje:#dca88c;
-  --texto:#3f3a34;
-  --borde:#eadfce;
+  --oro:#d8b15f;
+  --oro-suave:#f4ead2;
+  --rosa:#f7e7e4;
+  --texto:#3b2f2f;
+  --blanco:#fffdf8;
+  --borde:#e6d2a5;
 }
 
 *{box-sizing:border-box}
 
 body{
   margin:0;
-  background:var(--marfil);
+  font-family:Arial, Helvetica, sans-serif;
+  background:var(--blanco);
   color:var(--texto);
-  font-family:Arial, sans-serif;
 }
 
 header{
-  background:linear-gradient(135deg,#fbf4e9,#fffdf8);
-  padding:16px 22px;
-  border-bottom:1px solid var(--borde);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
   position:sticky;
   top:0;
-  z-index:10;
+  z-index:50;
+  background:linear-gradient(135deg,var(--rosa),var(--oro-suave));
+  padding:12px;
+  border-bottom:1px solid var(--borde);
 }
 
-.brand{
-  font-family:Georgia, serif;
-  font-size:30px;
-  font-style:italic;
-  color:var(--verde);
+h1{
+  margin:0 0 8px;
+  font-size:20px;
+  text-align:center;
+  color:var(--texto);
 }
 
-.subtitle{
-  font-size:11px;
-  letter-spacing:3px;
-  color:var(--maquillaje);
-  text-transform:uppercase;
+.controls{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.controls input,
+.controls select,
+.controls button{
+  width:100%;
+  padding:10px;
+  border:1px solid var(--borde);
+  border-radius:10px;
+  font-size:15px;
+  background:white;
+}
+
+.controls button{
+  background:var(--oro);
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
 }
 
 .langs{
   display:flex;
-  gap:6px;
+  justify-content:center;
+  gap:8px;
   margin-top:8px;
 }
 
 .langs button{
-  padding:5px 7px;
-  border-radius:8px;
-  background:white;
   border:1px solid var(--borde);
-  font-size:18px;
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-}
-
-button{
-  border:0;
-  border-radius:12px;
-  padding:11px 15px;
+  background:white;
+  border-radius:999px;
+  font-size:20px;
+  padding:4px 10px;
   cursor:pointer;
-  font-weight:bold;
 }
 
-.btn-main{
-  background:var(--maquillaje);
-  color:white;
+main{
+  padding:10px;
 }
 
-.btn-soft{
-  background:var(--verde);
-  color:white;
-}
-
-.panel{
-  padding:16px 22px;
-}
-
-.filtros{
+#catalogo{
   display:grid;
-  grid-template-columns:1fr 160px 160px 150px;
-  gap:10px;
-  margin-bottom:14px;
-}
-
-input, select{
-  width:100%;
-  padding:12px 14px;
-  border:1px solid var(--borde);
-  border-radius:10px;
-  background:white;
-}
-
-.resumen{
-  background:var(--beige);
-  color:var(--verde2);
-  border-radius:10px;
-  padding:12px;
-  text-align:center;
-  font-weight:bold;
-}
-
-.catalogo{
-  display:flex;
-  flex-direction:column;
-  gap:9px;
+  grid-template-columns:1fr;
+  gap:8px;
 }
 
 .card{
-  background:white;
-  border:1px solid var(--borde);
-  border-radius:16px;
-  padding:11px;
   display:grid;
-  grid-template-columns:170px 1fr;
-  gap:18px;
-  min-height:95px;
-  box-shadow:0 6px 18px rgba(92,73,54,.08);
-  align-items:center;
-}
-
-.photo{
-  background:var(--beige);
+  grid-template-columns:92px 1fr;
+  gap:8px;
+  min-height:120px;
+  padding:8px;
+  border:1px solid var(--borde);
   border-radius:12px;
-  height:90px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
+  background:white;
+  box-shadow:0 2px 5px rgba(0,0,0,.04);
 }
 
-.photo img{
-  width:100%;
-  height:100%;
+.card img{
+  width:92px;
+  height:112px;
   object-fit:contain;
-  background:#fff;
+  background:#faf7ef;
+  border-radius:10px;
+  border:1px solid #eee;
+  cursor:pointer;
 }
 
-.photo.sin-foto::after{
-  content:attr(data-ref);
-  font-family:Georgia, serif;
-  color:var(--verde);
-  font-size:20px;
+.info{
+  min-width:0;
 }
 
 .ref{
-  font-family:Georgia, serif;
-  color:var(--verde);
-  font-size:30px;
-  line-height:1;
-  margin-bottom:4px;
+  font-weight:bold;
+  font-size:15px;
+  color:#2d2424;
 }
 
 .desc{
-  font-family:Georgia, serif;
-  font-size:21px;
-  line-height:1.05;
-  text-transform:uppercase;
-  color:#3c352f;
-  margin-bottom:8px;
+  font-size:13px;
+  margin:2px 0 5px;
+  line-height:1.25;
 }
 
-.precio{
-  display:inline-block;
-  background:#fbf7ef;
-  border:1px solid var(--borde);
-  padding:5px 12px;
-  border-radius:20px;
-  color:var(--maquillaje);
+.price{
+  font-size:13px;
   font-weight:bold;
-  font-size:15px;
-  margin-bottom:8px;
+  color:#8b6b24;
+  margin-bottom:4px;
 }
 
-.tallas-linea{
-  font-size:15px;
-  line-height:1.35;
-  color:#4f463d;
-  font-weight:bold;
+.stock-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
 }
 
-.total-linea{
-  margin-top:6px;
-  font-size:14px;
-  color:var(--verde2);
-  font-weight:bold;
-}
-
-.loading{
+.stock-table th,
+.stock-table td{
+  border:1px solid #eadbb9;
+  padding:3px;
   text-align:center;
-  padding:50px;
-  color:var(--verde);
 }
 
-@media(max-width:700px){
-  header{
-    display:block;
-    padding:14px 15px;
-  }
+.stock-table th{
+  background:var(--oro-suave);
+}
 
-  .brand{
-    font-size:27px;
-  }
+.empty{
+  text-align:center;
+  margin-top:30px;
+  color:#777;
+}
 
-  .subtitle{
-    font-size:10px;
-  }
+#viewer{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:999;
+  background:rgba(0,0,0,.88);
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
 
-  .actions{
-    margin-top:12px;
-  }
+#viewer img{
+  max-width:100%;
+  max-height:92vh;
+  object-fit:contain;
+}
 
-  .panel{
-    padding:11px;
-  }
+#viewer span{
+  position:absolute;
+  top:15px;
+  right:20px;
+  color:white;
+  font-size:36px;
+  cursor:pointer;
+}
 
-  .filtros{
+@media(min-width:700px){
+  #catalogo{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(min-width:1050px){
+  #catalogo{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+}
+
+@media(max-width:480px){
+  h1{font-size:18px}
+
+  .controls{
     grid-template-columns:1fr;
   }
 
   .card{
-    grid-template-columns:44% 56%;
-    gap:10px;
-    padding:10px;
-    min-height:178px;
+    grid-template-columns:82px 1fr;
+    min-height:108px;
+    padding:7px;
   }
 
-  .photo{
-    height:160px;
-  }
-
-  .ref{
-    font-size:26px;
+  .card img{
+    width:82px;
+    height:100px;
   }
 
   .desc{
-    font-size:18px;
+    font-size:12px;
   }
 
-  .precio{
-    font-size:14px;
-  }
-
-  .tallas-linea{
-    font-size:14px;
-  }
-
-  .total-linea{
-    font-size:13px;
+  .stock-table{
+    font-size:11px;
   }
 }
 
 @media print{
-  @page{
-    size:A4 portrait;
-    margin:7mm;
-  }
-
-  body{
-    background:white;
-  }
-
-  header{
-    position:static;
-    padding:0 0 3mm 0;
-    margin-bottom:2.5mm;
-    background:white;
-    border-bottom:1px solid #ddd;
-  }
-
-  .brand{
-    font-size:21pt;
-  }
-
-  .subtitle{
-    font-size:7.5pt;
-  }
-
-  .langs,
-  .actions,
-  .filtros{
-    display:none!important;
-  }
-
-  .panel{
-    padding:0;
-  }
-
-  .catalogo{
-    gap:1.8mm;
-  }
-
-  .card{
-    height:37mm;
-    min-height:37mm;
-    box-shadow:none;
-    border:1px solid #ddd;
-    border-radius:3.5mm;
-    padding:2.2mm;
+  header{display:none}
+  main{padding:0}
+  #catalogo{
     display:grid;
-    grid-template-columns:34mm 1fr;
-    gap:4mm;
-    page-break-inside:avoid;
+    grid-template-columns:1fr 1fr;
+    gap:5px;
+  }
+  .card{
     break-inside:avoid;
-  }
-
-  .photo{
-    height:32mm;
-    border-radius:2.5mm;
-  }
-
-  .ref{
-    font-size:13.5pt;
-    margin-bottom:0.5mm;
-  }
-
-  .desc{
-    font-size:8.7pt;
-    line-height:1.05;
-    margin-bottom:0.8mm;
-  }
-
-  .precio{
-    font-size:7.5pt;
-    padding:0.7mm 1.8mm;
-    margin-bottom:0.8mm;
-  }
-
-  .tallas-linea{
-    font-size:7.1pt;
-    line-height:1.16;
-  }
-
-  .total-linea{
-    font-size:7.2pt;
-    margin-top:0.8mm;
+    box-shadow:none;
+    min-height:95px;
+    padding:5px;
   }
 }
 </style>
@@ -360,235 +248,288 @@ input, select{
 <body>
 
 <header>
-  <div>
-    <div class="brand">Abuela Tata</div>
-    <div class="subtitle" id="txtSubtitulo">Catálogo de stock disponible</div>
+  <h1 id="title">Catálogo Stock Disponible</h1>
 
-    <div class="langs">
-      <button onclick="cambiarIdioma('es')">🇪🇸</button>
-      <button onclick="cambiarIdioma('en')">🇬🇧</button>
-      <button onclick="cambiarIdioma('fr')">🇫🇷</button>
-      <button onclick="cambiarIdioma('it')">🇮🇹</button>
-      <button onclick="cambiarIdioma('pt')">🇵🇹</button>
-      <button onclick="cambiarIdioma('de')">🇩🇪</button>
-    </div>
+  <div class="controls">
+    <input id="search" type="text" placeholder="Buscar referencia o descripción">
+    <input id="familySearch" type="text" placeholder="Buscar familia: últimas 3 cifras">
+    <select id="sort">
+      <option value="referencia">Ordenar por referencia</option>
+      <option value="familia">Ordenar por familia</option>
+    </select>
+    <button onclick="generarPDF()" id="pdfBtn">Generar PDF</button>
   </div>
 
-  <div class="actions">
-    <button class="btn-soft" onclick="window.scrollTo({top:0,behavior:'smooth'})" id="btnInicio">Inicio</button>
-    <button class="btn-main" onclick="generarPDF()" id="btnPdf">Generar PDF</button>
+  <div class="langs">
+    <button onclick="setLang('es')">🇪🇸</button>
+    <button onclick="setLang('en')">🇬🇧</button>
+    <button onclick="setLang('fr')">🇫🇷</button>
+    <button onclick="setLang('it')">🇮🇹</button>
   </div>
 </header>
 
-<section class="panel">
-  <div class="filtros">
-    <input id="buscar" placeholder="Buscar referencia o descripción..." oninput="pintar()">
+<main>
+  <div id="catalogo"></div>
+  <div id="empty" class="empty" style="display:none;">No hay resultados</div>
+</main>
 
-    <select id="filtroTalla" onchange="pintar()">
-      <option value="">Todas las tallas</option>
-    </select>
-
-    <select id="ordenar" onchange="pintar()">
-      <option value="referencia">Ordenar por referencia</option>
-      <option value="stock">Ordenar por stock</option>
-    </select>
-
-    <div class="resumen" id="stockTotal">Stock: 0 uds</div>
-  </div>
-
-  <div class="catalogo" id="contenedor">
-    <div class="loading">Cargando catálogo...</div>
-  </div>
-</section>
+<div id="viewer" onclick="cerrarViewer()">
+  <span>&times;</span>
+  <img id="viewerImg" src="">
+</div>
 
 <script>
-const SUPABASE_URL = 'https://qoyrjhgjtydbcngfnyqn.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_w1UF4CwiWSCD5Ykd5yejfw_O--zV3OL';
-const TABLA = 'stock_ceremonia26';
+const SUPABASE_URL = "https://qoyrjhgjtydbcngfnyqn.supabase.co";
+const SUPABASE_KEY = "sb_publishable_w1UF4CwiWSCD5Ykd5yejfw_O--zV3OL";
 
-const cliente = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let datos = [];
-let agrupados = [];
-let idioma = 'es';
+let productos = [];
+let idioma = "es";
 
 const textos = {
-  es:{sub:'Catálogo de stock disponible',inicio:'Inicio',pdf:'Generar PDF',buscar:'Buscar referencia o descripción...',tallas:'Todas las tallas',ordRef:'Ordenar por referencia',ordStock:'Ordenar por stock',precio:'Precio',stockTotal:'Stock total',uds:'uds',sin:'No hay artículos con esos filtros.'},
-  en:{sub:'Available stock catalogue',inicio:'Home',pdf:'Generate PDF',buscar:'Search reference or description...',tallas:'All sizes',ordRef:'Sort by reference',ordStock:'Sort by stock',precio:'Price',stockTotal:'Total stock',uds:'units',sin:'No items found with these filters.'},
-  fr:{sub:'Catalogue du stock disponible',inicio:'Accueil',pdf:'Générer PDF',buscar:'Rechercher référence ou description...',tallas:'Toutes les tailles',ordRef:'Trier par référence',ordStock:'Trier par stock',precio:'Prix',stockTotal:'Stock total',uds:'unités',sin:'Aucun article avec ces filtres.'},
-  it:{sub:'Catalogo stock disponibile',inicio:'Inizio',pdf:'Genera PDF',buscar:'Cerca riferimento o descrizione...',tallas:'Tutte le taglie',ordRef:'Ordina per riferimento',ordStock:'Ordina per stock',precio:'Prezzo',stockTotal:'Stock totale',uds:'unità',sin:'Nessun articolo con questi filtri.'},
-  pt:{sub:'Catálogo de stock disponível',inicio:'Início',pdf:'Gerar PDF',buscar:'Pesquisar referência ou descrição...',tallas:'Todos os tamanhos',ordRef:'Ordenar por referência',ordStock:'Ordenar por stock',precio:'Preço',stockTotal:'Stock total',uds:'unid.',sin:'Não há artigos com estes filtros.'},
-  de:{sub:'Verfügbarer Lagerkatalog',inicio:'Start',pdf:'PDF erstellen',buscar:'Referenz oder Beschreibung suchen...',tallas:'Alle Größen',ordRef:'Nach Referenz sortieren',ordStock:'Nach Bestand sortieren',precio:'Preis',stockTotal:'Gesamtbestand',uds:'Stk.',sin:'Keine Artikel mit diesen Filtern.'}
+  es:{
+    title:"Catálogo Stock Disponible",
+    search:"Buscar referencia o descripción",
+    family:"Buscar familia: últimas 3 cifras",
+    pdf:"Generar PDF",
+    ref:"Referencia",
+    desc:"Descripción",
+    price:"Precio",
+    size:"Talla",
+    stock:"Stock",
+    empty:"No hay resultados"
+  },
+  en:{
+    title:"Available Stock Catalogue",
+    search:"Search reference or description",
+    family:"Search family: last 3 digits",
+    pdf:"Generate PDF",
+    ref:"Reference",
+    desc:"Description",
+    price:"Price",
+    size:"Size",
+    stock:"Stock",
+    empty:"No results found"
+  },
+  fr:{
+    title:"Catalogue Stock Disponible",
+    search:"Rechercher référence ou description",
+    family:"Rechercher famille : 3 derniers chiffres",
+    pdf:"Générer PDF",
+    ref:"Référence",
+    desc:"Description",
+    price:"Prix",
+    size:"Taille",
+    stock:"Stock",
+    empty:"Aucun résultat"
+  },
+  it:{
+    title:"Catalogo Stock Disponibile",
+    search:"Cerca referenza o descrizione",
+    family:"Cerca famiglia: ultime 3 cifre",
+    pdf:"Genera PDF",
+    ref:"Referenza",
+    desc:"Descrizione",
+    price:"Prezzo",
+    size:"Taglia",
+    stock:"Stock",
+    empty:"Nessun risultato"
+  }
 };
 
+document.addEventListener("DOMContentLoaded", () => {
+  cargarDatos();
+  document.getElementById("search").addEventListener("input", render);
+  document.getElementById("familySearch").addEventListener("input", render);
+  document.getElementById("sort").addEventListener("change", render);
+});
+
 async function cargarDatos(){
-  const { data, error } = await cliente
-    .from(TABLA)
-    .select('referencia, descripcion, precio, talla, stock')
-    .order('referencia', { ascending:true });
+  const { data, error } = await supabaseClient
+    .from("stock_ceremonia26")
+    .select("referencia, descripcion, precio, talla, stock")
+    .gt("stock", 0)
+    .order("referencia", { ascending:true });
 
   if(error){
-    document.getElementById('contenedor').innerHTML =
-      '<div class="loading">Error cargando Supabase. Revisa la clave o permisos.</div>';
     console.error(error);
+    document.getElementById("catalogo").innerHTML =
+      "<div class='empty'>Error cargando datos de Supabase</div>";
     return;
   }
 
-  datos = data || [];
-  prepararTallas();
-  agrupar();
-  pintar();
+  productos = agruparProductos(data || []);
+  render();
 }
 
-function prepararTallas(){
-  const tallas = [...new Set(datos.map(x => x.talla).filter(Boolean))];
-  tallas.sort((a,b)=>ordenTalla(a)-ordenTalla(b));
-
-  const select = document.getElementById('filtroTalla');
-  tallas.forEach(t=>{
-    const op=document.createElement('option');
-    op.value=t;
-    op.textContent=t;
-    select.appendChild(op);
-  });
-}
-
-function ordenTalla(t){
-  const s = String(t).toUpperCase().replace(/\s/g,'');
-  const orden = {
-    '3M':1,'6M':2,'9M':3,'12M':4,'18M':5,
-    '2A':6,'2Y':6,'3A':7,'3Y':7,'4A':8,'4Y':8,
-    '5A':9,'5Y':9,'6A':10,'6Y':10,'7A':11,'7Y':11,
-    '8A':12,'8Y':12,'9A':13,'9Y':13,'10A':14,'10Y':14,
-    '12A':15,'12Y':15
-  };
-  return orden[s] || 99;
-}
-
-function agrupar(){
+function agruparProductos(data){
   const mapa = {};
 
-  datos.forEach(row=>{
-    const ref = String(row.referencia || '').trim();
-    if(!ref) return;
+  data.forEach(item => {
+    const ref = String(item.referencia || "").trim();
 
     if(!mapa[ref]){
       mapa[ref] = {
         referencia: ref,
-        descripcion: row.descripcion || '',
-        precio: row.precio || '',
-        tallas: [],
-        total: 0
+        descripcion: item.descripcion || "",
+        precio: item.precio || "",
+        familia: ref.slice(-3),
+        imagen: `images/${ref}.jpg`,
+        tallas: []
       };
     }
 
-    const stock = Number(row.stock || 0);
-
-    if(stock > 0){
-      mapa[ref].tallas.push({
-        talla: row.talla,
-        stock
-      });
-      mapa[ref].total += stock;
-    }
+    mapa[ref].tallas.push({
+      talla: item.talla,
+      stock: item.stock
+    });
   });
 
-  agrupados = Object.values(mapa).filter(x=>x.total>0);
-
-  agrupados.forEach(item=>{
-    item.tallas.sort((a,b)=>ordenTalla(a.talla)-ordenTalla(b.talla));
-  });
+  return Object.values(mapa);
 }
 
-function pintar(){
-  const t = textos[idioma];
-  const contenedor = document.getElementById('contenedor');
-  const buscar = document.getElementById('buscar').value.toLowerCase();
-  const tallaFiltro = document.getElementById('filtroTalla').value;
-  const ordenar = document.getElementById('ordenar').value;
+function render(){
+  const q = document.getElementById("search").value.toLowerCase().trim();
+  const familia = document.getElementById("familySearch").value.trim();
+  const sort = document.getElementById("sort").value;
 
-  let lista = agrupados.filter(item=>{
-    const coincideBusqueda =
-      item.referencia.toLowerCase().includes(buscar) ||
-      item.descripcion.toLowerCase().includes(buscar);
+  let lista = productos.filter(p => {
+    const coincideTexto =
+      p.referencia.toLowerCase().includes(q) ||
+      String(p.descripcion).toLowerCase().includes(q);
 
-    const coincideTalla = !tallaFiltro ||
-      item.tallas.some(t => t.talla === tallaFiltro && t.stock > 0);
+    const coincideFamilia =
+      !familia || p.familia.includes(familia);
 
-    return coincideBusqueda && coincideTalla;
+    return coincideTexto && coincideFamilia;
   });
 
-  if(ordenar === 'stock'){
-    lista.sort((a,b)=>b.total-a.total);
-  }else{
-    lista.sort((a,b)=>a.referencia.localeCompare(b.referencia));
-  }
+  lista.sort((a,b) => {
+    if(sort === "familia"){
+      return a.familia.localeCompare(b.familia) || a.referencia.localeCompare(b.referencia);
+    }
+    return a.referencia.localeCompare(b.referencia);
+  });
 
-  const total = lista.reduce((sum,item)=>sum+item.total,0);
-  document.getElementById('stockTotal').textContent =
-    `${lista.length} refs · ${total} ${t.uds}`;
+  const cont = document.getElementById("catalogo");
+  const empty = document.getElementById("empty");
 
-  if(lista.length===0){
-    contenedor.innerHTML = `<div class="loading">${t.sin}</div>`;
+  cont.innerHTML = "";
+
+  if(lista.length === 0){
+    empty.style.display = "block";
+    empty.textContent = textos[idioma].empty;
     return;
   }
 
-  contenedor.innerHTML = lista.map(item => `
-    <article class="card">
-      <div class="photo">
-        <img 
-          src="images/${item.referencia}.jpg" 
-          alt="${item.referencia}"
-          onerror="this.style.display='none'; this.parentElement.classList.add('sin-foto'); this.parentElement.setAttribute('data-ref', '${item.referencia}')"
-        >
-      </div>
+  empty.style.display = "none";
+
+  lista.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <img src="${p.imagen}" alt="${p.referencia}" loading="lazy"
+           onerror="this.src=''; this.style.background='#f3eee1';"
+           onclick="abrirViewer('${p.imagen}')">
 
       <div class="info">
-        <div class="ref">${item.referencia}</div>
-        <div class="desc">${item.descripcion || 'Artículo disponible'}</div>
-        <div class="precio">${t.precio}: ${formatoPrecio(item.precio)}</div>
-        <div class="tallas-linea">${resumenTallas(item.tallas)}</div>
-      
-      </div>
-    </article>
-  `).join('');
-}
+        <div class="ref">${textos[idioma].ref}: ${p.referencia}</div>
+        <div class="desc">${p.descripcion || ""}</div>
+        <div class="price">${textos[idioma].price}: ${formatoPrecio(p.precio)}</div>
 
-function resumenTallas(tallas){
-  return tallas
-    .filter(t => Number(t.stock) > 0)
-    .map(t => `${t.talla}(${t.stock})`)
-    .join(' · ');
+        <table class="stock-table">
+          <thead>
+            <tr>
+              <th>${textos[idioma].size}</th>
+              <th>${textos[idioma].stock}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${p.tallas.map(t => `
+              <tr>
+                <td>${t.talla}</td>
+                <td>${t.stock}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    `;
+
+    cont.appendChild(card);
+  });
 }
 
 function formatoPrecio(precio){
-  if(precio === null || precio === undefined || precio === '') return '-';
+  if(precio === "" || precio === null || precio === undefined) return "";
   const n = Number(precio);
   if(isNaN(n)) return precio;
-  return n.toLocaleString('es-ES', {style:'currency', currency:'EUR'});
+  return n.toLocaleString("es-ES", { style:"currency", currency:"EUR" });
 }
 
-function cambiarIdioma(lang){
+function abrirViewer(src){
+  const viewer = document.getElementById("viewer");
+  const img = document.getElementById("viewerImg");
+  img.src = src;
+  viewer.style.display = "flex";
+}
+
+function cerrarViewer(){
+  document.getElementById("viewer").style.display = "none";
+  document.getElementById("viewerImg").src = "";
+}
+
+function setLang(lang){
   idioma = lang;
-  const t = textos[idioma];
-
-  document.getElementById('txtSubtitulo').textContent = t.sub;
-  document.getElementById('btnInicio').textContent = t.inicio;
-  document.getElementById('btnPdf').textContent = t.pdf;
-  document.getElementById('buscar').placeholder = t.buscar;
-
-  document.querySelector('#filtroTalla option[value=""]').textContent = t.tallas;
-  document.querySelector('#ordenar option[value="referencia"]').textContent = t.ordRef;
-  document.querySelector('#ordenar option[value="stock"]').textContent = t.ordStock;
-
-  pintar();
+  document.getElementById("title").textContent = textos[lang].title;
+  document.getElementById("search").placeholder = textos[lang].search;
+  document.getElementById("familySearch").placeholder = textos[lang].family;
+  document.getElementById("pdfBtn").textContent = textos[lang].pdf;
+  render();
 }
 
-function generarPDF(){
-  window.print();
-}
+async function generarPDF(){
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF("p", "mm", "a4");
 
-cargarDatos();
+  const cards = Array.from(document.querySelectorAll(".card"));
+  if(cards.length === 0) return;
+
+  let x = 8;
+  let y = 8;
+  const cardW = 94;
+  const cardH = 47;
+  const gap = 4;
+
+  for(let i = 0; i < cards.length; i++){
+    const canvas = await html2canvas(cards[i], {
+      scale: 1.5,
+      useCORS: true,
+      backgroundColor: "#ffffff"
+    });
+
+    const imgData = canvas.toDataURL("image/jpeg", 0.82);
+
+    pdf.addImage(imgData, "JPEG", x, y, cardW, cardH);
+
+    x += cardW + gap;
+
+    if(x + cardW > 202){
+      x = 8;
+      y += cardH + gap;
+    }
+
+    if(y + cardH > 287 && i < cards.length - 1){
+      pdf.addPage();
+      x = 8;
+      y = 8;
+    }
+  }
+
+  pdf.save("catalogo-stock-abuelatata.pdf");
+}
 </script>
 
 </body>
