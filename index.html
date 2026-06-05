@@ -11,20 +11,21 @@
 
 <style>
 :root{
-  --oro:#d8b15f;
-  --oro-suave:#f4ead2;
-  --rosa:#f7e7e4;
+  --oro:#c9a24d;
+  --oro-claro:#f4ead2;
+  --rosa:#f8e8e5;
+  --crema:#fffaf0;
   --texto:#3b2f2f;
-  --blanco:#fffdf8;
-  --borde:#e6d2a5;
+  --gris:#7b6f6f;
+  --borde:#ead9b8;
 }
 
 *{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:var(--blanco);
+  font-family:"Segoe UI", Arial, sans-serif;
+  background:radial-gradient(circle at top left,#fff4ef 0,#fffaf0 38%,#fff 100%);
   color:var(--texto);
 }
 
@@ -32,134 +33,187 @@ header{
   position:sticky;
   top:0;
   z-index:50;
-  background:linear-gradient(135deg,var(--rosa),var(--oro-suave));
-  padding:12px;
+  padding:14px 12px 12px;
+  background:rgba(255,250,240,.96);
+  backdrop-filter:blur(12px);
   border-bottom:1px solid var(--borde);
+  box-shadow:0 4px 18px rgba(120,90,40,.08);
 }
 
 h1{
-  margin:0 0 8px;
-  font-size:20px;
+  margin:0 0 12px;
   text-align:center;
-  color:var(--texto);
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:23px;
+  color:#3b2f2f;
+}
+
+h1:after{
+  content:"";
+  display:block;
+  width:78px;
+  height:2px;
+  margin:7px auto 0;
+  background:linear-gradient(90deg,transparent,var(--oro),transparent);
 }
 
 .controls{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:8px;
+  gap:9px;
+  max-width:980px;
+  margin:0 auto;
 }
 
 .controls input,
-.controls select,
-.controls button{
+.controls select{
   width:100%;
-  padding:10px;
+  height:43px;
+  padding:0 13px;
   border:1px solid var(--borde);
-  border-radius:10px;
-  font-size:15px;
-  background:white;
+  border-radius:16px;
+  background:#fff;
+  color:var(--texto);
+  font-size:14px;
+  outline:none;
 }
 
 .controls button{
-  background:var(--oro);
-  color:white;
-  font-weight:bold;
+  height:43px;
+  border:0;
+  border-radius:16px;
+  background:linear-gradient(135deg,#c9a24d,#e0bd68);
+  color:#fff;
+  font-weight:700;
+  font-size:15px;
   cursor:pointer;
 }
 
 .langs{
   display:flex;
   justify-content:center;
-  gap:8px;
-  margin-top:8px;
+  gap:9px;
+  margin-top:11px;
 }
 
 .langs button{
+  width:38px;
+  height:34px;
   border:1px solid var(--borde);
   background:white;
   border-radius:999px;
-  font-size:20px;
-  padding:4px 10px;
+  font-size:19px;
   cursor:pointer;
 }
 
-main{
-  padding:10px;
-}
+main{padding:12px}
 
 #catalogo{
   display:grid;
   grid-template-columns:1fr;
-  gap:8px;
+  gap:10px;
+  max-width:1180px;
+  margin:0 auto;
 }
 
 .card{
+  position:relative;
   display:grid;
-  grid-template-columns:92px 1fr;
-  gap:8px;
-  min-height:120px;
+  grid-template-columns:88px 1fr;
+  gap:9px;
+  min-height:118px;
   padding:8px;
   border:1px solid var(--borde);
-  border-radius:12px;
-  background:white;
-  box-shadow:0 2px 5px rgba(0,0,0,.04);
+  border-radius:18px;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 5px 16px rgba(80,55,20,.08);
+  overflow:hidden;
+}
+
+.card:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:5px;
+  height:100%;
+  background:linear-gradient(var(--rosa),var(--oro-claro),var(--oro));
 }
 
 .card img{
-  width:92px;
-  height:112px;
+  width:88px;
+  height:108px;
   object-fit:contain;
-  background:#faf7ef;
-  border-radius:10px;
-  border:1px solid #eee;
+  background:linear-gradient(180deg,#fffaf3,#f4ead2);
+  border-radius:14px;
+  border:1px solid #eee2c7;
   cursor:pointer;
+  padding:3px;
 }
 
-.info{
-  min-width:0;
-}
+.info{min-width:0}
 
 .ref{
-  font-weight:bold;
-  font-size:15px;
-  color:#2d2424;
+  display:inline-block;
+  padding:3px 8px;
+  border-radius:999px;
+  background:var(--oro-claro);
+  font-weight:800;
+  font-size:13px;
+  margin-bottom:4px;
 }
 
 .desc{
-  font-size:13px;
-  margin:2px 0 5px;
+  font-size:12.5px;
   line-height:1.25;
+  margin:0 0 5px;
+  color:#574747;
+  max-height:32px;
+  overflow:hidden;
 }
 
 .price{
-  font-size:13px;
-  font-weight:bold;
+  display:inline-block;
+  font-size:12.5px;
+  font-weight:800;
   color:#8b6b24;
-  margin-bottom:4px;
+  margin-bottom:5px;
 }
 
 .stock-table{
   width:100%;
-  border-collapse:collapse;
-  font-size:12px;
+  border-collapse:separate;
+  border-spacing:0;
+  font-size:11.5px;
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid #eadbb9;
 }
 
 .stock-table th,
 .stock-table td{
-  border:1px solid #eadbb9;
   padding:3px;
   text-align:center;
+  border-bottom:1px solid #eee0c2;
 }
 
 .stock-table th{
-  background:var(--oro-suave);
+  background:linear-gradient(180deg,#f8efd8,#f1dfb5);
+  font-weight:800;
+}
+
+.stock-table tr:last-child td{border-bottom:0}
+
+.stock-table td:last-child{
+  font-weight:800;
+  color:#7c5c18;
 }
 
 .empty{
   text-align:center;
-  margin-top:30px;
-  color:#777;
+  margin-top:35px;
+  color:var(--gris);
+  font-size:15px;
 }
 
 #viewer{
@@ -167,80 +221,78 @@ main{
   position:fixed;
   inset:0;
   z-index:999;
-  background:rgba(0,0,0,.88);
+  background:rgba(25,20,18,.92);
   align-items:center;
   justify-content:center;
-  padding:15px;
+  padding:18px;
 }
 
 #viewer img{
   max-width:100%;
   max-height:92vh;
   object-fit:contain;
+  background:white;
+  border-radius:18px;
+  padding:8px;
 }
 
 #viewer span{
   position:absolute;
-  top:15px;
-  right:20px;
+  top:14px;
+  right:22px;
   color:white;
-  font-size:36px;
+  font-size:38px;
   cursor:pointer;
 }
 
 @media(min-width:700px){
-  #catalogo{
-    grid-template-columns:1fr 1fr;
-  }
+  #catalogo{grid-template-columns:1fr 1fr}
 }
 
-@media(min-width:1050px){
-  #catalogo{
-    grid-template-columns:1fr 1fr 1fr;
-  }
+@media(min-width:1100px){
+  #catalogo{grid-template-columns:1fr 1fr 1fr}
 }
 
 @media(max-width:480px){
-  h1{font-size:18px}
+  header{padding:11px 9px}
+  h1{font-size:19px}
 
   .controls{
     grid-template-columns:1fr;
+    gap:7px;
   }
 
+  .controls input,
+  .controls select,
+  .controls button{
+    height:40px;
+    border-radius:14px;
+    font-size:13.5px;
+  }
+
+  main{padding:8px}
+
+  #catalogo{gap:8px}
+
   .card{
-    grid-template-columns:82px 1fr;
-    min-height:108px;
+    grid-template-columns:78px 1fr;
+    min-height:104px;
     padding:7px;
+    border-radius:16px;
   }
 
   .card img{
-    width:82px;
-    height:100px;
+    width:78px;
+    height:96px;
   }
 
-  .desc{
-    font-size:12px;
-  }
+  .ref{font-size:12px}
+  .desc{font-size:11.5px;max-height:28px}
+  .price{font-size:11.5px}
+  .stock-table{font-size:10.5px}
 
-  .stock-table{
-    font-size:11px;
-  }
-}
-
-@media print{
-  header{display:none}
-  main{padding:0}
-  #catalogo{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:5px;
-  }
-  .card{
-    break-inside:avoid;
-    box-shadow:none;
-    min-height:95px;
-    padding:5px;
-  }
+  .stock-table th,
+  .stock-table td{padding:2px}
 }
 </style>
 </head>
@@ -253,11 +305,13 @@ main{
   <div class="controls">
     <input id="search" type="text" placeholder="Buscar referencia o descripción">
     <input id="familySearch" type="text" placeholder="Buscar familia: últimas 3 cifras">
+
     <select id="sort">
       <option value="referencia">Ordenar por referencia</option>
       <option value="familia">Ordenar por familia</option>
     </select>
-    <button onclick="generarPDF()" id="pdfBtn">Generar PDF</button>
+
+    <button id="pdfBtn" onclick="generarPDF()">Generar PDF</button>
   </div>
 
   <div class="langs">
@@ -294,7 +348,6 @@ const textos = {
     family:"Buscar familia: últimas 3 cifras",
     pdf:"Generar PDF",
     ref:"Referencia",
-    desc:"Descripción",
     price:"Precio",
     size:"Talla",
     stock:"Stock",
@@ -306,7 +359,6 @@ const textos = {
     family:"Search family: last 3 digits",
     pdf:"Generate PDF",
     ref:"Reference",
-    desc:"Description",
     price:"Price",
     size:"Size",
     stock:"Stock",
@@ -318,7 +370,6 @@ const textos = {
     family:"Rechercher famille : 3 derniers chiffres",
     pdf:"Générer PDF",
     ref:"Référence",
-    desc:"Description",
     price:"Prix",
     size:"Taille",
     stock:"Stock",
@@ -330,7 +381,6 @@ const textos = {
     family:"Cerca famiglia: ultime 3 cifre",
     pdf:"Genera PDF",
     ref:"Referenza",
-    desc:"Descrizione",
     price:"Prezzo",
     size:"Taglia",
     stock:"Stock",
@@ -369,13 +419,15 @@ function agruparProductos(data){
   data.forEach(item => {
     const ref = String(item.referencia || "").trim();
 
+    if(!ref) return;
+
     if(!mapa[ref]){
       mapa[ref] = {
         referencia: ref,
         descripcion: item.descripcion || "",
         precio: item.precio || "",
         familia: ref.slice(-3),
-        imagen: `images/${ref}.jpg`,
+        imagen: "images/" + ref + ".jpg",
         tallas: []
       };
     }
@@ -386,7 +438,18 @@ function agruparProductos(data){
     });
   });
 
+  Object.values(mapa).forEach(p => {
+    p.tallas.sort((a,b) => ordenarTallas(a.talla,b.talla));
+  });
+
   return Object.values(mapa);
+}
+
+function ordenarTallas(a,b){
+  const orden = ["3M","6M","9M","12M","18M","2A","3A","4A","5A","6A","8A","10A","12A","14A","16A"];
+  const aa = String(a).toUpperCase().replace(" ","");
+  const bb = String(b).toUpperCase().replace(" ","");
+  return orden.indexOf(aa) - orden.indexOf(bb);
 }
 
 function render(){
@@ -407,7 +470,8 @@ function render(){
 
   lista.sort((a,b) => {
     if(sort === "familia"){
-      return a.familia.localeCompare(b.familia) || a.referencia.localeCompare(b.referencia);
+      return a.familia.localeCompare(b.familia) ||
+             a.referencia.localeCompare(b.referencia);
     }
     return a.referencia.localeCompare(b.referencia);
   });
@@ -430,9 +494,13 @@ function render(){
     card.className = "card";
 
     card.innerHTML = `
-      <img src="${p.imagen}" alt="${p.referencia}" loading="lazy"
-           onerror="this.src=''; this.style.background='#f3eee1';"
-           onclick="abrirViewer('${p.imagen}')">
+      <img 
+        src="${p.imagen}" 
+        alt="${p.referencia}" 
+        loading="lazy"
+        onclick="abrirViewer('${p.imagen}')"
+        onerror="this.src=''; this.style.background='#f3eee1';"
+      >
 
       <div class="info">
         <div class="ref">${textos[idioma].ref}: ${p.referencia}</div>
@@ -466,14 +534,15 @@ function formatoPrecio(precio){
   if(precio === "" || precio === null || precio === undefined) return "";
   const n = Number(precio);
   if(isNaN(n)) return precio;
-  return n.toLocaleString("es-ES", { style:"currency", currency:"EUR" });
+  return n.toLocaleString("es-ES", {
+    style:"currency",
+    currency:"EUR"
+  });
 }
 
 function abrirViewer(src){
-  const viewer = document.getElementById("viewer");
-  const img = document.getElementById("viewerImg");
-  img.src = src;
-  viewer.style.display = "flex";
+  document.getElementById("viewerImg").src = src;
+  document.getElementById("viewer").style.display = "flex";
 }
 
 function cerrarViewer(){
@@ -497,34 +566,34 @@ async function generarPDF(){
   const cards = Array.from(document.querySelectorAll(".card"));
   if(cards.length === 0) return;
 
-  let x = 8;
-  let y = 8;
-  const cardW = 94;
-  const cardH = 47;
-  const gap = 4;
+  let x = 6;
+  let y = 6;
+
+  const cardW = 96;
+  const cardH = 45;
+  const gap = 3;
 
   for(let i = 0; i < cards.length; i++){
     const canvas = await html2canvas(cards[i], {
-      scale: 1.5,
+      scale: 1.4,
       useCORS: true,
       backgroundColor: "#ffffff"
     });
 
     const imgData = canvas.toDataURL("image/jpeg", 0.82);
-
     pdf.addImage(imgData, "JPEG", x, y, cardW, cardH);
 
     x += cardW + gap;
 
-    if(x + cardW > 202){
-      x = 8;
+    if(x + cardW > 204){
+      x = 6;
       y += cardH + gap;
     }
 
-    if(y + cardH > 287 && i < cards.length - 1){
+    if(y + cardH > 291 && i < cards.length - 1){
       pdf.addPage();
-      x = 8;
-      y = 8;
+      x = 6;
+      y = 6;
     }
   }
 
