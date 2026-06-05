@@ -6,8 +6,6 @@
 <title>Catálogo Stock · Abuela Tata</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
 :root{
@@ -35,7 +33,6 @@ header{
   z-index:50;
   padding:14px 12px 12px;
   background:rgba(255,250,240,.96);
-  backdrop-filter:blur(12px);
   border-bottom:1px solid var(--borde);
   box-shadow:0 4px 18px rgba(120,90,40,.08);
 }
@@ -45,7 +42,6 @@ h1{
   text-align:center;
   font-family:Georgia, "Times New Roman", serif;
   font-size:23px;
-  color:#3b2f2f;
 }
 
 h1:after{
@@ -66,26 +62,26 @@ h1:after{
 }
 
 .controls input,
-.controls select{
+.controls select,
+.controls button{
   width:100%;
   height:43px;
+  border-radius:16px;
+  font-size:14px;
+}
+
+.controls input,
+.controls select{
   padding:0 13px;
   border:1px solid var(--borde);
-  border-radius:16px;
-  background:#fff;
-  color:var(--texto);
-  font-size:14px;
-  outline:none;
+  background:white;
 }
 
 .controls button{
-  height:43px;
   border:0;
-  border-radius:16px;
   background:linear-gradient(135deg,#c9a24d,#e0bd68);
-  color:#fff;
+  color:white;
   font-weight:700;
-  font-size:15px;
   cursor:pointer;
 }
 
@@ -117,7 +113,6 @@ main{padding:12px}
 }
 
 .card{
-  position:relative;
   display:grid;
   grid-template-columns:88px 1fr;
   gap:9px;
@@ -125,33 +120,21 @@ main{padding:12px}
   padding:8px;
   border:1px solid var(--borde);
   border-radius:18px;
-  background:rgba(255,255,255,.94);
+  background:white;
   box-shadow:0 5px 16px rgba(80,55,20,.08);
   overflow:hidden;
-}
-
-.card:before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  width:5px;
-  height:100%;
-  background:linear-gradient(var(--rosa),var(--oro-claro),var(--oro));
 }
 
 .card img{
   width:88px;
   height:108px;
   object-fit:contain;
-  background:linear-gradient(180deg,#fffaf3,#f4ead2);
+  background:#fffaf3;
   border-radius:14px;
   border:1px solid #eee2c7;
   cursor:pointer;
   padding:3px;
 }
-
-.info{min-width:0}
 
 .ref{
   display:inline-block;
@@ -167,13 +150,11 @@ main{padding:12px}
   font-size:12.5px;
   line-height:1.25;
   margin:0 0 5px;
-  color:#574747;
   max-height:32px;
   overflow:hidden;
 }
 
 .price{
-  display:inline-block;
   font-size:12.5px;
   font-weight:800;
   color:#8b6b24;
@@ -182,38 +163,25 @@ main{padding:12px}
 
 .stock-table{
   width:100%;
-  border-collapse:separate;
-  border-spacing:0;
+  border-collapse:collapse;
   font-size:11.5px;
-  border-radius:10px;
-  overflow:hidden;
-  border:1px solid #eadbb9;
 }
 
 .stock-table th,
 .stock-table td{
+  border:1px solid #eadbb9;
   padding:3px;
   text-align:center;
-  border-bottom:1px solid #eee0c2;
 }
 
 .stock-table th{
-  background:linear-gradient(180deg,#f8efd8,#f1dfb5);
-  font-weight:800;
-}
-
-.stock-table tr:last-child td{border-bottom:0}
-
-.stock-table td:last-child{
-  font-weight:800;
-  color:#7c5c18;
+  background:#f4ead2;
 }
 
 .empty{
   text-align:center;
   margin-top:35px;
   color:var(--gris);
-  font-size:15px;
 }
 
 #viewer{
@@ -272,8 +240,6 @@ main{padding:12px}
 
   main{padding:8px}
 
-  #catalogo{gap:8px}
-
   .card{
     grid-template-columns:78px 1fr;
     min-height:104px;
@@ -290,9 +256,72 @@ main{padding:12px}
   .desc{font-size:11.5px;max-height:28px}
   .price{font-size:11.5px}
   .stock-table{font-size:10.5px}
+}
+
+@media print{
+  @page{
+    size:A4;
+    margin:6mm;
+  }
+
+  header,
+  #viewer{
+    display:none !important;
+  }
+
+  body{
+    background:white !important;
+  }
+
+  main{
+    padding:0 !important;
+  }
+
+  #catalogo{
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:4px !important;
+    max-width:none !important;
+  }
+
+  .card{
+    break-inside:avoid !important;
+    page-break-inside:avoid !important;
+    box-shadow:none !important;
+    border-radius:8px !important;
+    min-height:86px !important;
+    padding:4px !important;
+    grid-template-columns:64px 1fr !important;
+  }
+
+  .card img{
+    width:64px !important;
+    height:78px !important;
+    object-fit:contain !important;
+  }
+
+  .ref{
+    font-size:9.5px !important;
+    padding:1px 5px !important;
+  }
+
+  .desc{
+    font-size:8.5px !important;
+    max-height:20px !important;
+  }
+
+  .price{
+    font-size:8.5px !important;
+  }
+
+  .stock-table{
+    font-size:7.5px !important;
+  }
 
   .stock-table th,
-  .stock-table td{padding:2px}
+  .stock-table td{
+    padding:1px !important;
+  }
 }
 </style>
 </head>
@@ -418,7 +447,6 @@ function agruparProductos(data){
 
   data.forEach(item => {
     const ref = String(item.referencia || "").trim();
-
     if(!ref) return;
 
     if(!mapa[ref]){
@@ -447,9 +475,15 @@ function agruparProductos(data){
 
 function ordenarTallas(a,b){
   const orden = ["3M","6M","9M","12M","18M","2A","3A","4A","5A","6A","8A","10A","12A","14A","16A"];
-  const aa = String(a).toUpperCase().replace(" ","");
-  const bb = String(b).toUpperCase().replace(" ","");
-  return orden.indexOf(aa) - orden.indexOf(bb);
+  const aa = String(a).toUpperCase().replace(/\s/g,"");
+  const bb = String(b).toUpperCase().replace(/\s/g,"");
+  const ia = orden.indexOf(aa);
+  const ib = orden.indexOf(bb);
+
+  if(ia === -1 && ib === -1) return aa.localeCompare(bb);
+  if(ia === -1) return 1;
+  if(ib === -1) return -1;
+  return ia - ib;
 }
 
 function render(){
@@ -499,7 +533,7 @@ function render(){
         alt="${p.referencia}" 
         loading="lazy"
         onclick="abrirViewer('${p.imagen}')"
-        onerror="this.src=''; this.style.background='#f3eee1';"
+        onerror="this.style.visibility='hidden';"
       >
 
       <div class="info">
@@ -559,45 +593,8 @@ function setLang(lang){
   render();
 }
 
-async function generarPDF(){
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF("p", "mm", "a4");
-
-  const cards = Array.from(document.querySelectorAll(".card"));
-  if(cards.length === 0) return;
-
-  let x = 6;
-  let y = 6;
-
-  const cardW = 96;
-  const cardH = 45;
-  const gap = 3;
-
-  for(let i = 0; i < cards.length; i++){
-    const canvas = await html2canvas(cards[i], {
-      scale: 1.4,
-      useCORS: true,
-      backgroundColor: "#ffffff"
-    });
-
-    const imgData = canvas.toDataURL("image/jpeg", 0.82);
-    pdf.addImage(imgData, "JPEG", x, y, cardW, cardH);
-
-    x += cardW + gap;
-
-    if(x + cardW > 204){
-      x = 6;
-      y += cardH + gap;
-    }
-
-    if(y + cardH > 291 && i < cards.length - 1){
-      pdf.addPage();
-      x = 6;
-      y = 6;
-    }
-  }
-
-  pdf.save("catalogo-stock-abuelatata.pdf");
+function generarPDF(){
+  window.print();
 }
 </script>
 
